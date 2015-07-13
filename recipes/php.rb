@@ -1,6 +1,6 @@
 #
 ## Cookbook Name:: aligent-magento-dev
-## Recipe:: xdebug
+## Recipe:: php
 ##
 ## Copyright 2015, Aligent Consulting
 ##
@@ -33,6 +33,6 @@ file "/etc/php.d/timezone.ini" do
   mode "0644"
   action :create
   content "date.timezone=\"#{node['tz']}\"\n"
-  notifies :restart, 'service[apache2]'
+#  notifies :restart, 'service[apache2]'
 end
 
