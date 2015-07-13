@@ -33,6 +33,6 @@ file "/etc/php.d/timezone.ini" do
   mode "0644"
   action :create
   content "date.timezone=\"#{node['tz']}\"\n"
-#  notifies :restart, 'service[apache2]'
+  notifies :restart, 'service[php-fpm]'
 end
 

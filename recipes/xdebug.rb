@@ -38,5 +38,5 @@ template "/etc/php.d/xdebug.ini" do
   mode 0644
   owner "root"
   group "root"
-  #notifies :restart, 'service[apache2]'
+  notifies :restart, 'service[php-fpm]'
 end
