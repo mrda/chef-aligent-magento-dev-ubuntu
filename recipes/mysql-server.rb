@@ -1,6 +1,6 @@
 #
 ## Cookbook Name:: aligent-magento-dev
-## Recipe:: database
+## Recipe:: mysql-server
 ##
 ## Copyright 2015, Aligent Consulting
 ##
@@ -25,31 +25,11 @@
 ##
 #
 
-mysql2_chef_gem 'default' do
-  action :install
-end
-
-include_recipe "database::mysql"
-
-mysql_connection_info = {
-	:host => 'localhost',
-	:username => 'root',
-	:password => node['mysql']['server_root_password']
-}
-
-node['app']['mysql'].each do |db|
-    mysql_database db['database']  do
-        connection mysql_connection_info
-        action :create
-    end
-
-    mysql_database_user db['username'] do
-        connection mysql_connection_info
-        password db['password']
-        database_name db['database']
-        host db['acl']
-        privileges [:all]
-        action :grant
-    end
-
-end
+ mysql_service 'default' do
+   version node['mysql']['server_version']
+   bind_address '0.0.0.0'
+   port '3306'
+   data_dir '/var/lib/mysql'
+   initial_root_password node['mysql']['server_root_password']
+   action [:create, :start]
+ end

@@ -1,6 +1,6 @@
 #
 ## Cookbook Name:: aligent-magento-dev
-## Recipe:: magetools
+## Recipe:: magento-database
 ##
 ## Copyright 2015, Aligent Consulting
 ##
@@ -25,20 +25,31 @@
 ##
 #
 
-remote_file '/usr/local/bin/modman' do
-  source 'https://raw.githubusercontent.com/colinmollenhour/modman/master/modman'
-  owner 'root'
-  group 'root'
-  mode '755'
+mysql2_chef_gem 'default' do
+  action :install
 end
 
-remote_file '/usr/local/bin/n98-magerun.phar' do
-  source 'https://github.com/netz98/n98-magerun/raw/master/n98-magerun.phar'
-  owner 'root'
-  group 'root'
-  mode '755'
-end
+include_recipe "database::mysql"
 
-link "/usr/local/bin/n98-magerun.phar" do
-  to "/usr/local/bin/n98-magerun"
+mysql_connection_info = {
+	:host => 'localhost',
+	:username => 'root',
+	:password => node['mysql']['server_root_password']
+}
+
+node['app']['mysql'].each do |db|
+    mysql_database db['database']  do
+        connection mysql_connection_info
+        action :create
+    end
+
+    mysql_database_user db['username'] do
+        connection mysql_connection_info
+        password db['password']
+        database_name db['database']
+        host db['acl']
+        privileges [:all]
+        action :grant
+    end
+
 end
