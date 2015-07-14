@@ -36,7 +36,7 @@ mysql_connection_info = {
 }
 
 node['app']['mysql'].each do |key, db|
-    mysql_database db['database']  do
+    mysql_database db['database'] do
         connection mysql_connection_info
         action :create
     end

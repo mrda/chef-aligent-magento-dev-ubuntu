@@ -25,11 +25,11 @@
 ##
 #
 
- mysql_service 'default' do
-   version node['mysql']['server_version']
-   bind_address '0.0.0.0'
-   port '3306'
-   data_dir '/var/lib/mysql'
-   initial_root_password node['mysql']['server_root_password']
-   action [:create, :start]
- end
+mysql_service 'default' do
+  version node['mysql']['server_version']
+  bind_address '0.0.0.0'
+  port '3306'
+  data_dir '/var/lib/mysql'
+  initial_root_password node['mysql']['server_root_password']
+  action [:create, :start]
+end

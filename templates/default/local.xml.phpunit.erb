@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config>
+    <global>
+        <resources>
+            <default_setup>
+                <connection>
+                    <host><![CDATA[<%= node['app']['mysql']['test']['host'] %>]]></host>
+                    <username><![CDATA[<%= node['app']['mysql']['test']['username'] %>]]></username>
+                    <password><![CDATA[<%= node['app']['mysql']['test']['password'] %>]]></password>
+                    <dbname><![CDATA[<%= node['app']['mysql']['test']['database'] %>]]></dbname>
+                </connection>
+            </default_setup>
+        </resources>
+    </global>
+    <default>
+        <web>
+            <seo>
+                <use_rewrites>1</use_rewrites>
+            </seo>
+            <secure>
+                <base_url><![CDATA[<%= node['app']['phpunit']['url'] %>]]></base_url>
+            </secure>
+            <unsecure>
+                <base_url><![CDATA[<%= node['app']['phpunit']['url'] %>]]></base_url>
+            </unsecure>
+            <url>
+                <redirect_to_base>0</redirect_to_base>
+            </url>
+        </web>
+    </default>
+    <phpunit>
+        <allow_same_db>0</allow_same_db>
+        <disable_modules>
+            <Jonathanday_Commercebug/>
+            <!--<Aoe_DesignFallback/>-->
+            <EcomDev_PHPUnitTest/>
+            <Aoe_TemplateHints/>
+        </disable_modules>
+    </phpunit>
+</config>

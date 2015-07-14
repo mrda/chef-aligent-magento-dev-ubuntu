@@ -38,7 +38,3 @@ remote_file '/usr/local/bin/n98-magerun.phar' do
   group 'root'
   mode '755'
 end
-
-link "/usr/local/bin/n98-magerun.phar" do
-  to "/usr/local/bin/n98-magerun"
-end
