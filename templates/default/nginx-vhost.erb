@@ -1,0 +1,71 @@
+map $http_host $magesite {
+    <% node['app']['run_codes'].each do |domain, code| %><%= "#{domain} #{code};\n" %><% end %>
+}
+
+server {
+<% if node['app']['ssl']['enabled'] %>
+  listen 443;
+  ssl on;
+  ssl_certificate ssl/magento.pem;
+  ssl_certificate_key ssl/magento.pem;
+  access_log  <%= node[:nginx][:log_dir] %>/magento-ssl.access.log;
+<% else %>
+  listen 80;
+  access_log  <%= node[:nginx][:log_dir] %>/magento.access.log;
+<% end %>
+
+  server_name  <% node['app']['run_codes'].each do |domain, code| %><%= "#{domain} " %><% end %>;
+  root /vagrant/public;
+  autoindex off;
+
+  # protection (we have no .htaccess)
+  location ~ (^/(app/|includes/|lib/|/pkginfo/|var/|report/config.xml)|/\.git/|/\.hg/|/\.svn/|/.hta.+) {
+    deny all;
+  }
+
+  # handle all .php files, /downloader and /report
+  location ~ (\.php|/downloader/?|/report/?)$ {
+    if ($request_uri ~ /(downloader|report)$){ # no trailing /, redirecting
+      rewrite  ^(.*)$ $1/ permanent;
+    }
+    fastcgi_index index.php;
+    include /etc/nginx/fastcgi_params;
+    fastcgi_param MAGE_RUN_TYPE <%= node['app']['run_type'] %>;
+    fastcgi_param MAGE_RUN_CODE $magesite;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    <% node['app']['server_params'].each do |param, value| %>
+    fastcgi_param <%= "#{param} #{value}" %>;
+    <% end %>
+    <% if node['app']['ssl']['enabled'] %>fastcgi_param HTTPS on;<% end %>
+    if (-e $request_filename) { # check if requested path exists
+      fastcgi_pass unix:/var/run/php-fpm-www.sock;
+    }
+  }
+
+  # handle magento
+  location / {
+    # Remove cache buster from static file urls
+    location ~* (.+)\.(\d+)\.(js|css|png|jpg|jpeg|gif)$ {
+      try_files $uri $1.$3;
+    }
+    # set expire headers
+    if ($request_uri ~* "\.(ico|css|js|gif|jpe?g|png)$") {
+      expires max;
+    }
+    # set fastcgi settings, not allowed in the "if" block
+    include /etc/nginx/fastcgi_params;
+    fastcgi_param MAGE_RUN_TYPE <%= node['app']['run_type'] %>;
+    fastcgi_param MAGE_RUN_CODE $magesite;
+    fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+    fastcgi_param SCRIPT_NAME /index.php;
+    <% node['app']['server_params'].each do |param, value| %>
+    fastcgi_param <%= "#{param} #{value}" %>;
+    <% end %>
+    <% if node['app']['ssl']['enabled'] %>fastcgi_param HTTPS on;<% end %>
+    # rewrite - if file not found, pass it to the backend
+    if (!-f $request_filename) {
+      fastcgi_pass unix:/var/run/php-fpm-www.sock;
+      break;
+    }
+  }
+}
