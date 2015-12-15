@@ -24,14 +24,14 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-template "/vagrant/public/app/etc/local.xml" do
+template "#{node['app']['magento_root']}/app/etc/local.xml" do
   source "local.xml.erb"
   mode 0644
   owner "vagrant"
   group "vagrant"
 end
 
-template "/vagrant/public/app/etc/local.xml.phpunit" do
+template "#{node['app']['magento_root']}/app/etc/local.xml.phpunit" do
   source "local.xml.phpunit.erb"
   mode 0644
   owner "vagrant"

@@ -15,7 +15,7 @@ server {
 <% end %>
 
   server_name  <% node['app']['run_codes'].each do |domain, code| %><%= "#{domain} " %><% end %>;
-  root /vagrant/public;
+  root <%= node['app']['magento_root'] %>;
   autoindex off;
 
   # protection (we have no .htaccess)
