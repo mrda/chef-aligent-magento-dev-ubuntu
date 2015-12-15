@@ -1,0 +1,42 @@
+<IfModule mod_fastcgi.c>
+    AddType application/x-httpd-php .php
+    Action application/x-httpd-php /php.fcgi
+</IfModule>
+FastCgiExternalServer /var/run/php-fpm-www.sock -socket /var/run/php-fpm-www.sock -pass-header Authorization
+
+<Directory <%= node['app']['magento_root'] %>>
+	AllowOverride All
+</Directory>
+
+<VirtualHost *:80>
+	ServerAdmin sysadmin@aligent.com.au
+
+	<% run_codes = node['app']['run_codes'] %>
+    <% run_codes.each do |domain, code| %>
+    	<% if code == run_codes.first %>
+    		ServerName <%= domain %>
+    	<% else %>
+    		ServerAlias <%= domain %>
+    	<% end %>
+    <% end %>
+
+   	DocumentRoot <%= node['app']['magento_root'] %>
+
+    <% run_codes.each do |domain, code| %>
+        SetEnvIf Host <%= domain %> MAGE_RUN_CODE=<%= code %>
+    <% end %>
+    SetEnv MAGE_RUN_TYPE '<%= node['app']['run_type'] %>'
+
+    <% node['app']['server_params'].each do |param, value| %>
+        SetEnv <%= "#{param} '#{value}'" %>
+    <% end %>
+
+Alias /php.fcgi /var/run/php-fpm-www.sock
+
+	ErrorLog logs/error-magento.log
+
+	LogLevel warn
+
+	CustomLog logs/access-magento.log combined
+
+</VirtualHost>
