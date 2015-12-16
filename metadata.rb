@@ -1,6 +1,6 @@
 name             'aligent-magento-dev'
 maintainer       'Aligent Consulting'
-maintainer_email 'YOUR_EMAIL'
+maintainer_email 'sysadmin@aligent.com.au'
 license          'MIT'
 description      'Custom recipes for an Aligent dev environment'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
@@ -12,3 +12,4 @@ depends 'nginx', '~> 2.7.6'
 depends 'php', '~> 1.3.12'
 depends 'mysql', '~> 6.0.30'
 depends 'redis2', '~> 0.5.1'
+depends 's3_file', '= 2.5.4'
