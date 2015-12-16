@@ -42,6 +42,10 @@ apache_module "headers" do
     enable true
 end
 
+apache_module "rewrite" do
+    enable true
+end
+
 template "#{node[:apache][:dir]}/sites-available/magento.conf" do
   source "apache2-cgi-vhost.erb"
   owner "root"
