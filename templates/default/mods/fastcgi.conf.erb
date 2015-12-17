@@ -1,4 +1,4 @@
 <IfModule mod_fastcgi.c>
-    FastCgiConfig   -autoUpdate
+    FastCgiConfig   -autoUpdate -idle-timeout <%= node['php-fpm']['pools']['www'][:request_terminate_timeout] %>
     AddHandler      fastcgi-script .fcgi
 </IfModule>

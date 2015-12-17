@@ -2,7 +2,7 @@
     AddType application/x-httpd-php .php
     Action application/x-httpd-php /php.fcgi
 </IfModule>
-FastCgiExternalServer /var/www/cgi-bin/php.fgi -socket /var/run/php-fpm-www.sock -pass-header Authorization
+FastCgiExternalServer /var/www/cgi-bin/php.fgi -socket /var/run/php-fpm-www.sock -pass-header Authorization  -idle-timeout <%= node['php-fpm']['pools']['www'][:request_terminate_timeout] %>
 
 <Directory <%= node['app']['magento_root'] %>>
 	AllowOverride All
