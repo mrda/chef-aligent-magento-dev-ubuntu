@@ -25,7 +25,7 @@
 ##
 #
 
-%w{vim-enhanced git-all}.each do |pkg|
+%w{vim-enhanced git-all GeoIP}.each do |pkg|
   package pkg do
     action :install
   end
