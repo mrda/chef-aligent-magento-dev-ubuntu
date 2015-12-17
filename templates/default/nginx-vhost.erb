@@ -6,8 +6,8 @@ server {
 <% if node['app']['ssl']['enabled'] %>
   listen 443;
   ssl on;
-  ssl_certificate ssl/magento.pem;
-  ssl_certificate_key ssl/magento.pem;
+  ssl_certificate /etc/pki/tls/certs/magento.crt;
+  ssl_certificate_key /etc/pki/tls/private/magento.key;
   access_log  <%= node[:nginx][:log_dir] %>/magento-ssl.access.log;
 <% else %>
   listen 80;

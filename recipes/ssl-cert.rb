@@ -1,6 +1,6 @@
 #
 ## Cookbook Name:: aligent-magento-dev
-## Recipe:: nginx-vhost
+## Recipe:: ssl-cert
 ##
 ## Copyright 2015, Aligent Consulting
 ##
@@ -25,17 +25,20 @@
 ##
 #
 
-if node['app']['ssl']['enabled']
-    include_recipe 'aligent-magento-dev::ssl-cert'
+cookbook_file '/etc/pki/tls/certs/magento.crt' do
+  source node['app']['ssl']['cert_name']
+  cookbook node['app']['ssl']['cert_cookbook']
+  owner 'root'
+  group 'root'
+  mode '0644'
+  action :create
 end
 
-template "#{node[:nginx][:dir]}/sites-available/magento" do
-  source "nginx-vhost.erb"
-  owner "root"
-  group "root"
-  mode 0644
-end
-
-nginx_site "magento" do
-    notifies :reload, resources(:service => "nginx")
+cookbook_file '/etc/pki/tls/private/magento.key' do
+  source node['app']['ssl']['key_name']
+  cookbook node['app']['ssl']['cert_cookbook']
+  owner 'root'
+  group 'root'
+  mode '0644'
+  action :create
 end

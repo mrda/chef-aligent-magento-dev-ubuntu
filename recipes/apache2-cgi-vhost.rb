@@ -46,6 +46,11 @@ apache_module "rewrite" do
     enable true
 end
 
+if node['app']['ssl']['enabled']
+    include_recipe 'apache2::mod_ssl'
+    include_recipe 'aligent-magento-dev::ssl-cert'
+end
+
 template "#{node[:apache][:dir]}/sites-available/magento.conf" do
   source "apache2-cgi-vhost.erb"
   owner "root"
