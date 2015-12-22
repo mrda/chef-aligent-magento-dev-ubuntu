@@ -26,7 +26,6 @@
 #
 
 
-
 file "/etc/php.d/timezone.ini" do
   owner "root"
   group "root"
@@ -36,3 +35,11 @@ file "/etc/php.d/timezone.ini" do
   notifies :restart, 'service[php-fpm]'
 end
 
+
+cookbook_file '/etc/php.d/zz-magento.ini' do
+  source 'zz-magento.ini'
+  owner 'root'
+  group 'root'
+  mode '0644'
+  action :create
+end
