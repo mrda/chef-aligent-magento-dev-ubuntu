@@ -34,3 +34,12 @@ yum_repository "nexcess" do
     enabled true
     exclude "mysql* varnish*"
 end
+
+yum_repository "nexcess_scl" do
+    description "Nexcess Repo SCL"
+    baseurl "http://rpms.nexcess.net/el/$releasever/scl/$basearch/"
+    gpgcheck true
+    gpgkey "http://rpms.nexcess.net/RPM-GPG-KEY-NEXCESS"
+    enabled true
+    exclude "mysql* varnish*"
+end
