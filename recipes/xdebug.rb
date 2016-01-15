@@ -39,6 +39,10 @@ if node['app']['xdebug']['enable']
     mode 0644
     owner "root"
     group "root"
-    notifies :restart, 'service[php-fpm]'
+    if node.recipe?('php-fpm')
+      notifies :restart, 'service[php-fpm]'
+    elsif node.recipe?('apache2::mod_php5')
+      notifies :restart, 'service[apache2]'
+    end
   end
 end
