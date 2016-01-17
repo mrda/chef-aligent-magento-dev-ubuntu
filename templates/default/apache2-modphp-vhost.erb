@@ -1,0 +1,77 @@
+<Directory <%= node['app']['magento_root'] %>>
+	AllowOverride All
+</Directory>
+
+<VirtualHost *:80>
+
+	ServerAdmin sysadmin@aligent.com.au
+
+	<% run_codes = node['app']['run_codes'] %>
+    <% run_codes.each do |domain, code| %>
+    	<% if code == run_codes.first %>
+    		ServerName <%= domain %>
+    	<% else %>
+    		ServerAlias <%= domain %>
+    	<% end %>
+    <% end %>
+
+   	DocumentRoot <%= node['app']['magento_root'] %>
+
+    <% run_codes.each do |domain, code| %>
+        SetEnvIf Host <%= domain %> MAGE_RUN_CODE=<%= code %>
+    <% end %>
+    SetEnv MAGE_RUN_TYPE '<%= node['app']['run_type'] %>'
+
+    <% node['app']['server_params'].each do |param, value| %>
+        SetEnv <%= "#{param} '#{value}'" %>
+    <% end %>
+
+	ErrorLog logs/error-magento.log
+
+	LogLevel warn
+
+	CustomLog logs/access-magento.log combined
+
+</VirtualHost>
+
+<% if node['app']['ssl']['enabled'] %>
+NameVirtualHost *:443
+<VirtualHost *:443>
+	ServerAdmin sysadmin@aligent.com.au
+
+	<% run_codes = node['app']['run_codes'] %>
+    <% run_codes.each do |domain, code| %>
+    	<% if code == run_codes.first %>
+    		ServerName <%= domain %>
+    	<% else %>
+    		ServerAlias <%= domain %>
+    	<% end %>
+    <% end %>
+
+    SSLEngine on
+    SSLCertificateFile /etc/pki/tls/certs/magento.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/magento.key
+    SetEnvIf User-Agent ".*MSIE.*" \
+         nokeepalive ssl-unclean-shutdown \
+         downgrade-1.0 force-response-1.0
+
+
+   	DocumentRoot <%= node['app']['magento_root'] %>
+
+    <% run_codes.each do |domain, code| %>
+        SetEnvIf Host <%= domain %> MAGE_RUN_CODE=<%= code %>
+    <% end %>
+    SetEnv MAGE_RUN_TYPE '<%= node['app']['run_type'] %>'
+
+    <% node['app']['server_params'].each do |param, value| %>
+        SetEnv <%= "#{param} '#{value}'" %>
+    <% end %>
+
+	ErrorLog logs/error-magento.log
+
+	LogLevel warn
+
+	CustomLog logs/access-magento.log combined
+
+</VirtualHost>
+<% end %>

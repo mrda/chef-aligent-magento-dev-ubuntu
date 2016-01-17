@@ -1,6 +1,6 @@
 #
 ## Cookbook Name:: aligent-magento-dev
-## Recipe:: xdebug
+## Recipe:: apache2-modphp-vhost
 ##
 ## Copyright 2015, Aligent Consulting
 ##
@@ -25,24 +25,36 @@
 ##
 #
 
-if node['app']['xdebug']['enable']
-  # install the xdebug pecl
-  php_pear "xdebug" do
-    # Specify that xdebug.so must be loaded as a zend extension
-    zend_extensions ['xdebug.so']
-    version node['app']['xdebug']['version']
-    action :install
-  end
+include_recipe "apache2::mod_php5"
 
-  template "/etc/php.d/xdebug.ini" do
-    source "xdebug.ini.erb"
-    mode 0644
-    owner "root"
-    group "root"
-    if node.recipe?('php-fpm')
-      notifies :restart, 'service[php-fpm]'
-    elsif node.recipe?('apache2::mod_php5')
-      notifies :restart, 'service[apache2]'
-    end
-  end
+apache_module "actions" do
+    enable true
+end
+
+apache_module "headers" do
+    enable true
+end
+
+apache_module "rewrite" do
+    enable true
+end
+
+if node['app']['ssl']['enabled']
+    include_recipe 'apache2::mod_ssl'
+    include_recipe 'aligent-magento-dev::ssl-cert'
+end
+
+template "#{node[:apache][:dir]}/sites-available/magento.conf" do
+  source "apache2-modphp-vhost.erb"
+  owner "root"
+  group "root"
+  mode 0644
+end
+
+apache_site "magento" do
+  enable true
+end
+
+service "apache2" do
+  action :restart
 end
