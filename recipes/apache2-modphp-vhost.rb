@@ -44,14 +44,14 @@ if node['app']['ssl']['enabled']
     include_recipe 'aligent-magento-dev::ssl-cert'
 end
 
-template "#{node[:apache][:dir]}/sites-available/magento.conf" do
+template "#{node[:apache][:dir]}/sites-available/#{node['app']['name']}.conf" do
   source "apache2-modphp-vhost.erb"
   owner "root"
   group "root"
   mode 0644
 end
 
-apache_site "magento" do
+apache_site "#{node['app']['name']}" do
   enable true
 end
 

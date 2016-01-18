@@ -25,7 +25,7 @@
 ##
 #
 
-flag_file="#{node['app']['magento_root']}/.databaseRestored"
+flag_file="#{node['app']['document_root']}/.databaseRestored"
 
 if !File.exists?(flag_file)
 
@@ -41,7 +41,7 @@ if !File.exists?(flag_file)
     end
 
     bash 'extract_and_restore_db' do
-      cwd node['app']['magento_root']
+      cwd node['app']['document_root']
       code <<-EOH
         RESTORE_PATH=/tmp/restore
 
@@ -85,7 +85,7 @@ if !File.exists?(flag_file)
 
     execute "dev_config_script" do
         command "./util/dev-config.sh"
-        cwd node['app']['magento_root']
+        cwd node['app']['document_root']
     end
 
     file flag_file do

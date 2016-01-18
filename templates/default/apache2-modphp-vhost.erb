@@ -1,4 +1,4 @@
-<Directory <%= node['app']['magento_root'] %>>
+<Directory <%= node['app']['document_root'] %>>
 	AllowOverride All
 </Directory>
 
@@ -15,7 +15,7 @@
     	<% end %>
     <% end %>
 
-   	DocumentRoot <%= node['app']['magento_root'] %>
+   	DocumentRoot <%= node['app']['document_root'] %>
 
     <% run_codes.each do |domain, code| %>
         SetEnvIf Host <%= domain %> MAGE_RUN_CODE=<%= code %>
@@ -26,11 +26,11 @@
         SetEnv <%= "#{param} '#{value}'" %>
     <% end %>
 
-	ErrorLog logs/error-magento.log
+	ErrorLog logs/error-<%= node['app']['name'] %>.log
 
 	LogLevel warn
 
-	CustomLog logs/access-magento.log combined
+	CustomLog logs/access-<%= node['app']['name'] %>.log combined
 
 </VirtualHost>
 
@@ -49,14 +49,14 @@ NameVirtualHost *:443
     <% end %>
 
     SSLEngine on
-    SSLCertificateFile /etc/pki/tls/certs/magento.crt
-    SSLCertificateKeyFile /etc/pki/tls/private/magento.key
+    SSLCertificateFile /etc/pki/tls/certs/<%= node['app']['name'] %>.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/<%= node['app']['name'] %>.key
     SetEnvIf User-Agent ".*MSIE.*" \
          nokeepalive ssl-unclean-shutdown \
          downgrade-1.0 force-response-1.0
 
 
-   	DocumentRoot <%= node['app']['magento_root'] %>
+   	DocumentRoot <%= node['app']['document_root'] %>
 
     <% run_codes.each do |domain, code| %>
         SetEnvIf Host <%= domain %> MAGE_RUN_CODE=<%= code %>
@@ -67,11 +67,11 @@ NameVirtualHost *:443
         SetEnv <%= "#{param} '#{value}'" %>
     <% end %>
 
-	ErrorLog logs/error-magento.log
+	ErrorLog logs/error-<%= node['app']['name'] %>.log
 
 	LogLevel warn
 
-	CustomLog logs/access-magento.log combined
+	CustomLog logs/access-<%= node['app']['name'] %>.log combined
 
 </VirtualHost>
 <% end %>

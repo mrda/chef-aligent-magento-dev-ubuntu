@@ -29,13 +29,13 @@ if node['app']['ssl']['enabled']
     include_recipe 'aligent-magento-dev::ssl-cert'
 end
 
-template "#{node[:nginx][:dir]}/sites-available/magento" do
+template "#{node[:nginx][:dir]}/sites-available/#{node['app']['name']}" do
   source "nginx-vhost.erb"
   owner "root"
   group "root"
   mode 0644
 end
 
-nginx_site "magento" do
+nginx_site node['app']['name'] do
     notifies :reload, resources(:service => "nginx")
 end
