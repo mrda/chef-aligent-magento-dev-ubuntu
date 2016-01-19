@@ -25,7 +25,7 @@
 ##
 #
 
-cookbook_file '/etc/pki/tls/certs/#{node['app']['name']}.crt' do
+cookbook_file "/etc/pki/tls/certs/#{node['app']['name']}.crt" do
   source node['app']['ssl']['cert_name']
   cookbook node['app']['ssl']['cert_cookbook']
   owner 'root'
@@ -34,7 +34,7 @@ cookbook_file '/etc/pki/tls/certs/#{node['app']['name']}.crt' do
   action :create
 end
 
-cookbook_file '/etc/pki/tls/private/#{node['app']['name']}.key' do
+cookbook_file "/etc/pki/tls/private/#{node['app']['name']}.key" do
   source node['app']['ssl']['key_name']
   cookbook node['app']['ssl']['cert_cookbook']
   owner 'root'

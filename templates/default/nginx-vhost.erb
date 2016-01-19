@@ -14,7 +14,11 @@ server {
   access_log  <%= node[:nginx][:log_dir] %>/#{node['app']['name']}.access.log;
 <% end %>
 
-  server_name  <% node['app']['run_codes'].each do |domain, code| %><%= "#{domain} " %><% end %>;
+  <% if run_codes != nil && !run_codes.empty? %>
+    server_name  <% node['app']['run_codes'].each do |domain, code| %><%= "#{domain} " %><% end %>;
+  <% else %>
+    server_name  <%= node['app']['url']['host'] %>
+  <$ end %>
   root <%= node['app']['document_root'] %>;
   autoindex off;
 

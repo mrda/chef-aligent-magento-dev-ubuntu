@@ -7,20 +7,26 @@
 	ServerAdmin sysadmin@aligent.com.au
 
 	<% run_codes = node['app']['run_codes'] %>
-    <% run_codes.each do |domain, code| %>
-    	<% if code == run_codes.first %>
-    		ServerName <%= domain %>
-    	<% else %>
-    		ServerAlias <%= domain %>
-    	<% end %>
+    <% if run_codes != nil && !run_codes.empty? %>
+        <% run_codes.each do |domain, code| %>
+            <% if code == run_codes.first %>
+                ServerName <%= domain %>
+            <% else %>
+                ServerAlias <%= domain %>
+            <% end %>
+        <% end %>
+    <% else %>
+        ServerName <%= node['app']['url']['host'] %>
     <% end %>
 
    	DocumentRoot <%= node['app']['document_root'] %>
 
-    <% run_codes.each do |domain, code| %>
-        SetEnvIf Host <%= domain %> MAGE_RUN_CODE=<%= code %>
+    <% if run_codes != nil && !run_codes.empty? %>
+        <% run_codes.each do |domain, code| %>
+            SetEnvIf Host <%= domain %> MAGE_RUN_CODE=<%= code %>
+        <% end %>
+        SetEnv MAGE_RUN_TYPE '<%= node['app']['run_type'] %>'
     <% end %>
-    SetEnv MAGE_RUN_TYPE '<%= node['app']['run_type'] %>'
 
     <% node['app']['server_params'].each do |param, value| %>
         SetEnv <%= "#{param} '#{value}'" %>
@@ -39,13 +45,16 @@ NameVirtualHost *:443
 <VirtualHost *:443>
 	ServerAdmin sysadmin@aligent.com.au
 
-	<% run_codes = node['app']['run_codes'] %>
-    <% run_codes.each do |domain, code| %>
-    	<% if code == run_codes.first %>
-    		ServerName <%= domain %>
-    	<% else %>
-    		ServerAlias <%= domain %>
-    	<% end %>
+    <% if run_codes != nil && !run_codes.empty? %>
+        <% run_codes.each do |domain, code| %>
+            <% if code == run_codes.first %>
+                ServerName <%= domain %>
+            <% else %>
+                ServerAlias <%= domain %>
+            <% end %>
+        <% end %>
+    <% else %>
+        ServerName <%= node['app']['url']['host'] %>
     <% end %>
 
     SSLEngine on
@@ -58,10 +67,12 @@ NameVirtualHost *:443
 
    	DocumentRoot <%= node['app']['document_root'] %>
 
-    <% run_codes.each do |domain, code| %>
-        SetEnvIf Host <%= domain %> MAGE_RUN_CODE=<%= code %>
+    <% if run_codes != nil && !run_codes.empty? %>
+        <% run_codes.each do |domain, code| %>
+            SetEnvIf Host <%= domain %> MAGE_RUN_CODE=<%= code %>
+        <% end %>
+        SetEnv MAGE_RUN_TYPE '<%= node['app']['run_type'] %>'
     <% end %>
-    SetEnv MAGE_RUN_TYPE '<%= node['app']['run_type'] %>'
 
     <% node['app']['server_params'].each do |param, value| %>
         SetEnv <%= "#{param} '#{value}'" %>
