@@ -6,6 +6,8 @@ default['app']['name'] = "magento"
 default['app']['document_root'] = "/vagrant/public"
 default['app']['run_codes'] = {}
 default['app']['server_params'] = {}
+default['app']['local_xml_cookbook'] = 'aligent-magento-dev'
+default['app']['session_backend'] = "files"
 
 default['varnish']['version'] = '3.0'
 default['varnish']['vcl_cookbook'] = 'aligent-magento-dev'

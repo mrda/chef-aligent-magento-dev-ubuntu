@@ -26,6 +26,7 @@
 
 template "#{node['app']['document_root']}/app/etc/local.xml" do
   source "local.xml.erb"
+  cookbook node['app']['local_xml_cookbook']
   mode 0644
   owner "vagrant"
   group "vagrant"

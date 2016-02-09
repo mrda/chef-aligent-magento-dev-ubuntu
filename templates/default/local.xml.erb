@@ -52,7 +52,7 @@
                 </connection>
             </default_setup>
         </resources>
-        <session_save><![CDATA[db]]></session_save>
+        <session_save><![CDATA[<%= node['app']['session_backend'] %>]]></session_save>
 
         <% if node['app']['cache_backend'] == 'redis' -%>
             <cache>
