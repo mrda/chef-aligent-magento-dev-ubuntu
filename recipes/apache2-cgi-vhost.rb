@@ -34,23 +34,6 @@ apache_module "fastcgi" do
     conf true
 end
 
-apache_module "actions" do
-    enable true
-end
-
-apache_module "headers" do
-    enable true
-end
-
-apache_module "rewrite" do
-    enable true
-end
-
-if node['app']['ssl']['enabled']
-    include_recipe 'apache2::mod_ssl'
-    include_recipe 'aligent-magento-dev::ssl-cert'
-end
-
 template "#{node[:apache][:dir]}/sites-available/#{node['app']['name']}.conf" do
   source "apache2-cgi-vhost.erb"
   owner "root"
@@ -62,6 +45,4 @@ apache_site node['app']['name'] do
   enable true
 end
 
-service "apache2" do
-  action :restart
-end
+include_recipe 'aligent-magento-dev::apache2-common'

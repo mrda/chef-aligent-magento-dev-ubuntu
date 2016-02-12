@@ -1,6 +1,6 @@
 #
 ## Cookbook Name:: aligent-magento-dev
-## Recipe:: apache2-modphp-vhost
+## Recipe:: apache2-common
 ##
 ## Copyright 2015, Aligent Consulting
 ##
@@ -25,17 +25,29 @@
 ##
 #
 
-include_recipe "apache2::mod_php5"
 
-template "#{node[:apache][:dir]}/sites-available/#{node['app']['name']}.conf" do
-  source "apache2-modphp-vhost.erb"
-  owner "root"
-  group "root"
-  mode 0644
+apache_module "actions" do
+    enable true
 end
 
-apache_site "#{node['app']['name']}" do
-  enable true
+apache_module "headers" do
+    enable true
 end
 
-include_recipe 'aligent-magento-dev::apache2-common'
+apache_module "expires" do
+    enable true
+end
+
+apache_module "rewrite" do
+    enable true
+end
+
+if node['app']['ssl']['enabled']
+    include_recipe 'apache2::mod_ssl'
+    include_recipe 'aligent-magento-dev::ssl-cert'
+end
+
+service "apache2" do
+  action :restart
+end
+
