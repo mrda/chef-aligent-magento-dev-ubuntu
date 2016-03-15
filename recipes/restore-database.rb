@@ -71,10 +71,10 @@ if !File.exists?(flag_file)
         ./util/n98-magerun.phar db:create
 
         echo "Restoring main database file..."
-        ./util/n98-magerun.phar db:console < ${RESTORE_PATH}/database/jurlique-prod-stripped.sql
+        ./util/n98-magerun.phar db:console < ${RESTORE_PATH}/#{node['app']['s3_backup']['db_file_name']}
 
         echo "Restoring database config table..."
-        ./util/n98-magerun.phar db:console < ${RESTORE_PATH}/database/jurlique-prod-stripped-config.sql
+        ./util/n98-magerun.phar db:console < ${RESTORE_PATH}/#{node['app']['s3_backup']['db_config_file_name']}
 
         echo "Cleaning up..."
         rm -rf $RESTORE_PATH
