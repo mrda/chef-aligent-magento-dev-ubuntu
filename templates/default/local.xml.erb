@@ -57,17 +57,53 @@
         <% if node['app']['cache_backend'] == 'redis' -%>
             <cache>
                 <backend>Cm_Cache_Backend_Redis</backend>
-                <prefix>dev_</prefix>
+                <prefix><![CDATA[<%= node['app']['cache_backend_redis']['prefix'] %>]]></prefix>
                 <auto_refresh_fast_cache>0</auto_refresh_fast_cache>
                 <backend_options>
-                    <server><![CDATA[<%= node['app']['mysql']['main']['host'] %>]]></server>
-                    <port>6379</port>
+                    <server><![CDATA[<%= node['app']['cache_backend_redis']['server'] %>]]></server>
+                    <port><![CDATA[<%= node['app']['cache_backend_redis']['port'] %>]]></port>
                     <database>0</database>
                     <use_redisent>0</use_redisent>  <!-- 0 for phpredis, 1 for redisent -->
                     <automatic_cleaning_factor>20000</automatic_cleaning_factor> <!-- optional, 20000 is the default, 0 disables auto clean -->
+                    <persistent><![CDATA[]]></persistent>
+                    <database><![CDATA[0]]></database>
+                    <password></password>
+                    <force_standalone><![CDATA[0]]></force_standalone><!-- 0 for phpredis, 1 for standalone PHP -->
+                    <connect_retries><![CDATA[2]]></connect_retries>
+                    <read_timeout><![CDATA[30]]></read_timeout>
+                    <log_level><![CDATA[4]]></log_level>
+                    <automatic_cleaning_factor>0</automatic_cleaning_factor>
+                    <compress_data><![CDATA[1]]></compress_data>  <!-- 0-9 for compression level, recommended: 0 or 1 -->
+                    <compress_tags><![CDATA[1]]></compress_tags>  <!-- 0-9 for compression level, recommended: 0 or 1 -->
+                    <compression_threshold>2048</compression_threshold><!-- Strings below this size will not be compressed -->
+                    <compression_lib><![CDATA[lzf]]></compression_lib>
                 </backend_options>
             </cache>
         <% end -%>
+
+        <% if node['app']['session_backend'] == 'redis' -%>
+            <session_save><![CDATA[db]]></session_save>
+            <session_cache_limiter><![CDATA[no-store, no-cache, must-revalidate, post-check=0, pre-check=0]]></session_cache_limiter>
+            <redis_session>
+              <host><![CDATA[<%= node['app']['session_backend_redis']['server'] %>]]></host>            <!-- Specify an absolute path if using a unix socket -->
+              <port><![CDATA[<%= node['app']['session_backend_redis']['port'] %>]]></port>
+              <password></password>             <!-- Specify if your redis server requires authentication -->
+              <timeout><![CDATA[2.5]]></timeout>            <!-- This is the Redis connection timeout, not the locking timeout -->
+              <persistent><![CDATA[]]></persistent>         <!-- Specify unique string to enable persistent connections. E.g.: sess-db0 -->
+              <db><![CDATA[0]]></db>
+              <compression_threshold>0</compression_threshold><!-- 0 to disable -->
+              <compression_lib><![CDATA[lzf]]></compression_lib>
+              <log_level>6</log_level>
+              <log_broken_locks><![CDATA[1]]></log_broken_locks>               <!-- Useful for debugging fatal errors or extremely slow pages -->
+              <max_concurrency><![CDATA[48]]></max_concurrency>
+              <break_after_frontend><![CDATA[6]]></break_after_frontend>       <!-- Frontend arguably doesn't need locking as urgently -->
+              <break_after_adminhtml><![CDATA[15]]></break_after_adminhtml>
+              <bot_lifetime>300</bot_lifetime>                    <!-- Bots get shorter session lifetimes. 0 to disable -->
+            </redis_session>
+        <% else -%>
+            <session_save><![CDATA[<%= node['app']['session_backend'] %>]]></session_save>
+        <% end -%
+
     </global>
     <admin>
         <routers>

@@ -32,9 +32,12 @@ template "#{node['app']['document_root']}/app/etc/local.xml" do
   group "vagrant"
 end
 
-template "#{node['app']['document_root']}/app/etc/local.xml.phpunit" do
-  source "local.xml.phpunit.erb"
-  mode 0644
-  owner "vagrant"
-  group "vagrant"
+
+if #node['app']['mysql']['test']['enabled']
+  template "#{node['app']['document_root']}/app/etc/local.xml.phpunit" do
+    source "local.xml.phpunit.erb"
+    mode 0644
+    owner "vagrant"
+    group "vagrant"
+  end
 end
