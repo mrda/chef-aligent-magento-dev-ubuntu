@@ -24,6 +24,15 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+
+directory "#{node['app']['document_root']}/app/etc/" do
+  owner "apache"
+  group "apache"
+  mode 0755
+  recursive true
+  action :create
+end
+
 template "#{node['app']['document_root']}/app/etc/local.xml" do
   source "local.xml.erb"
   cookbook node['app']['local_xml_cookbook']
@@ -33,7 +42,7 @@ template "#{node['app']['document_root']}/app/etc/local.xml" do
 end
 
 
-if #node['app']['mysql']['test']['enabled']
+if node['app']['mysql']['test']['enabled']
   template "#{node['app']['document_root']}/app/etc/local.xml.phpunit" do
     source "local.xml.phpunit.erb"
     mode 0644
