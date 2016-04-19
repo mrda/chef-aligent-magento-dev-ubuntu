@@ -34,8 +34,8 @@ if !File.exists?(flag_file)
         bucket node['app']['s3_backup']['bucket']
         aws_access_key_id node['app']['s3_backup']['aws_access_key']
         aws_secret_access_key node['app']['s3_backup']['aws_secret_access_key']
-        owner "vagrant"
-        group "vagrant"
+        owner node['app']['primary_user']
+        group node['app']['primary_user']
         mode "0644"
         action :create
     end
@@ -59,7 +59,7 @@ if !File.exists?(flag_file)
         # Ensure media folder exists
         if [ ! -d ./media ]; then
             mkdir ./media
-            chown vagrant:apache ./media
+            chown #{node['app']['primary_user']}:apache ./media
             chmod -R 777 ./media
         fi
 
@@ -91,8 +91,8 @@ if !File.exists?(flag_file)
     file flag_file do
         content 'Delete this file and run "vagrant provision" on your home machine to update your database.'
         mode '0755'
-        owner 'vagrant'
-        group 'vagrant'
+        owner node['app']['primary_user']
+        group node['app']['primary_user']
         action :create_if_missing
     end
 

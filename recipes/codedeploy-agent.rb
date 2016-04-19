@@ -31,7 +31,7 @@
   end
 end
 
-remote_file '/opt/codedeploy-install' do
+remote_file '#{Chef::Config[:file_cache_path]}/codedeploy-agent-install' do
   source 'https://aws-codedeploy-ap-southeast-2.s3.amazonaws.com/latest/install'
   owner 'root'
   group 'root'
@@ -40,7 +40,7 @@ remote_file '/opt/codedeploy-install' do
 end
 
 execute "install_codedeploy_agent" do
-    command "/opt/codedeploy-install rpm"
+    command "#{Chef::Config[:file_cache_path]}/codedeploy-agent-install rpm"
     cwd "/opt"
     creates "/etc/init.d/codedeploy-agent"
 end
@@ -48,5 +48,4 @@ end
 service "codedeploy-agent" do
     action [ :start, :enable ]
 end
-#sudo service codedeploy-agent start
 

@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: aligent-magento-dev
-# Recipe:: magento-localxml
+# Recipe:: magento-cron
 #
-# Copyright 2015, (c) 2015 Aligent Consulting
+# Copyright 2016, (c) 2016 Aligent Consulting
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -24,29 +24,15 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+if node['app']['runs_cron']
 
-directory "#{node['app']['document_root']}/app/etc/" do
-  owner "apache"
-  group "apache"
-  mode 0755
-  recursive true
-  action :create
-end
-
-template "#{node['app']['document_root']}/app/etc/local.xml" do
-  source "local.xml.erb"
-  cookbook node['app']['local_xml_cookbook']
-  mode 0644
-  owner node['app']['primary_user']
-  group node['app']['primary_user']
-end
-
-
-if node['app']['mysql']['test']['enabled']
-  template "#{node['app']['document_root']}/app/etc/local.xml.phpunit" do
-    source "local.xml.phpunit.erb"
-    mode 0644
-    owner node['app']['primary_user']
-    group node['app']['primary_user']
+  cron 'magento_cron' do
+    action :create
+    minute '*/5'
+    user node['app']['primary_user']
+    mailto 'sysadmin@aligent.com.au'
+    home "/home/#{node['app']['primary_user']}"
+    command "if [ -x #{node['app']['primary_user']}/cron.sh ]; then #{node['app']['primary_user']}/cron.sh; fi"
   end
+
 end
