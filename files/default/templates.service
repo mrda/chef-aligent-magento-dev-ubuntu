@@ -1,6 +1,6 @@
 [Unit]
 Description=Create templated configs
-After=cloud-init.service
+After=cloud-final.service
 Before=varnish.service httpd.service
 
 [Service]
