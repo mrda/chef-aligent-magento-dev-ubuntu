@@ -33,6 +33,14 @@ directory "#{node['app']['document_root']}/app/etc/" do
   action :create
 end
 
+directory "#{node['app']['document_root']}/media/" do
+  owner "apache"
+  group "apache"
+  mode 0755
+  recursive true
+  action :create
+end
+
 template "#{node['app']['document_root']}/app/etc/local.xml" do
   source "local.xml.erb"
   cookbook node['app']['local_xml_cookbook']
