@@ -40,6 +40,14 @@ cookbook_file '/usr/local/sbin/templates.sh' do
   action :create
 end
 
+cookbook_file '/usr/local/sbin/process-templates.sh' do
+  source 'process-templates.sh'
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
 service "templates" do
   action :enable
 end
