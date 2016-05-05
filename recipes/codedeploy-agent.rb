@@ -31,7 +31,7 @@
   end
 end
 
-remote_file '#{Chef::Config[:file_cache_path]}/codedeploy-agent-install' do
+remote_file "#{Chef::Config[:file_cache_path]}/codedeploy-agent-install" do
   source 'https://aws-codedeploy-ap-southeast-2.s3.amazonaws.com/latest/install'
   owner 'root'
   group 'root'
