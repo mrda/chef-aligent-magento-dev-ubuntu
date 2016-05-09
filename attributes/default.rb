@@ -19,6 +19,8 @@ default['app']['session_backend_redis']['port'] = '6379'
 
 default['app']['primary_user'] = "vagrant"
 
+default['app']['vhost_cookbook'] = 'aligent-magento-dev'
+
 default['varnish']['version'] = '3.0'
 default['varnish']['vcl_cookbook'] = 'aligent-magento-dev'
 default['varnish']['backend_host'] = 'localhost'

@@ -58,6 +58,7 @@ template "#{node[:apache][:dir]}/sites-available/#{node['app']['name']}.conf" do
   owner "root"
   group "root"
   mode 0644
+  cookbook node['app']['vhost_cookbook']
 end
 
 apache_site node['app']['name'] do
