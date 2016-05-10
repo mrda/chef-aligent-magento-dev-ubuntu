@@ -26,14 +26,20 @@
 #
 
 if node['app']['xdebug']['enable']
-  # install the xdebug pecl
-  php_pear "xdebug" do
-    # Specify that xdebug.so must be loaded as a zend extension
-    zend_extensions ['xdebug.so']
-    version node['app']['xdebug']['version']
-    action :install
-  end
 
+  if node['app']['xdebug']['package'] != nil
+    package node['app']['xdebug']['package'] do
+      action :install
+    end
+  else
+    # install the xdebug pecl
+    php_pear "xdebug" do
+      # Specify that xdebug.so must be loaded as a zend extension
+      zend_extensions ['xdebug.so']
+      version node['app']['xdebug']['version']
+      action :install
+    end
+  end
   template "/etc/php.d/xdebug.ini" do
     source "xdebug.ini.erb"
     mode 0644
