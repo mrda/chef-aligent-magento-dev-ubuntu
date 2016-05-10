@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for target in /etc/varnish/default.vcl /etc/my.conf; do
+for target in /etc/nginx/nginx.conf /etc/my.conf; do
 
     template="${target}.template"
 

@@ -1,7 +1,7 @@
 [Unit]
 Description=Create templated configs
 After=cloud-final.service
-Before=varnish.service httpd.service
+Before=nginx.service
 
 [Service]
 Type=oneshot
