@@ -31,7 +31,6 @@ if node['app']['runs_cron']
     minute '*/5'
     user node['app']['cron_user']
     mailto 'sysadmin@aligent.com.au'
-    home "/home/#{node['app']['primary_user']}"
     command "if [ -x #{node['app']['document_root']}/cron.sh ]; then #{node['app']['document_root']}/cron.sh; fi"
   end
 
