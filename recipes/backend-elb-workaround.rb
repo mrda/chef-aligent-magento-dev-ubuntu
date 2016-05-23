@@ -36,4 +36,8 @@ if node['app']['varnish']['backend_elb_workaround']
         owner "root"
         group "root"
     end
+
+    service "nginx" do
+        action :enable
+    end
 end
