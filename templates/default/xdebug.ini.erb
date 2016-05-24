@@ -1,4 +1,4 @@
-<% if node['app']['xdebug']['package'] != nil %>
+<% if node['app']['xdebug']['package'] == nil %>
 ; Enable xdebug extension module
 zend_extension=/usr/lib64/php/modules/xdebug.so
 <% end %>
