@@ -24,8 +24,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-template "#{node['app']['document_root']}/app/etc/php.env" do
-  source "php.env.erb"
+template "#{node['app']['document_root']}/app/etc/env.php" do
+  source "env.php.erb"
   mode 0644
   owner "apache"
   group "apache"
