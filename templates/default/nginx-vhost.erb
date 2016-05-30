@@ -1,24 +1,32 @@
+<% run_codes = node['app']['run_codes'] %>
+<% host_names = node['app']['host_names'] %>
+<% if (host_names == nil || host_names.empty?) && (run_codes != nil && !run_codes.empty?) %>
+    <% host_names = run_codes.keys %>
+<% end %>
+
 map $http_host $magesite {
-    <% node['app']['run_codes'].each do |domain, code| %><%= "#{domain} #{code};\n" %><% end %>
+    <% run_codes.each do |domain, code| %>
+        <%= "#{domain} #{code}" %>;
+    <% end %>
 }
 
 server {
 <% if node['app']['ssl']['enabled'] %>
   listen 443;
   ssl on;
-  ssl_certificate /etc/pki/tls/certs/#{node['app']['name']}.crt;
-  ssl_certificate_key /etc/pki/tls/private/#{node['app']['name']}.key;
-  access_log  <%= node[:nginx][:log_dir] %>/#{node['app']['name']}-ssl.access.log;
+  ssl_certificate /etc/pki/tls/certs/<%= node['app']['name'] %>.crt;
+  ssl_certificate_key /etc/pki/tls/private/<%= node['app']['name'] %>.key;
+  access_log  <%= node[:nginx][:log_dir] %>/<%= node['app']['name'] %>-ssl.access.log;
 <% else %>
   listen 80;
-  access_log  <%= node[:nginx][:log_dir] %>/#{node['app']['name']}.access.log;
+  access_log  <%= node[:nginx][:log_dir] %>/<%= node['app']['name'] %>.access.log;
 <% end %>
 
-  <% if run_codes != nil && !run_codes.empty? %>
-    server_name  <% node['app']['run_codes'].each do |domain, code| %><%= "#{domain} " %><% end %>;
+  <% if host_names != nil && !host_names.empty? %>
+    server_name <% host_names.each do |domain| %><%= "#{domain} " %><% end %>;
   <% else %>
-    server_name  <%= node['app']['url']['host'] %>
-  <$ end %>
+    server_name  <%= node['app']['url']['host'] %>;
+  <% end %>
   root <%= node['app']['document_root'] %>;
   autoindex off;
 
