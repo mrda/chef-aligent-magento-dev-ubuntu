@@ -22,6 +22,8 @@ default['app']['cron_user'] = "vagrant"
 
 default['app']['vhost_cookbook'] = 'aligent-magento-dev'
 
+default['app']['database_engine'] 'mysql'
+
 default['varnish']['version'] = '3.0'
 default['varnish']['vcl_cookbook'] = 'aligent-magento-dev'
 default['varnish']['backend_host'] = 'localhost'

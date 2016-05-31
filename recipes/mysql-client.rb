@@ -25,7 +25,21 @@
 ##
 #
 
+if node['app']['database_engine'] == 'mysql' || node['app']['database_engine'] == nil
+    mysql_client 'default' do
+        action :create
+    end
 
-mysql_client 'default' do
-  action :create
+    mysql2_chef_gem 'default' do
+      action :install
+    end
+
+else
+    include_recipe "mariadb::client"
+
+    mysql2_chef_gem 'default' do
+      provider Chef::Provider::Mysql2ChefGem::Mariadb
+      action :install
+    end
+
 end
