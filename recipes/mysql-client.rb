@@ -27,10 +27,12 @@
 
 if node['app']['database_engine'] == 'mysql' || node['app']['database_engine'] == nil
     mysql_client 'default' do
+        version node['mysql']['server_version']
         action :create
     end
 
     mysql2_chef_gem 'default' do
+      client_version node['mysql']['server_version']
       action :install
     end
 
