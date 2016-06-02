@@ -31,11 +31,7 @@ if node['app']['runs_cron']
     minute '*/1'
     user node['app']['cron_user']
     mailto 'sysadmin@aligent.com.au'
-  	if node.recipe?('php-fpm')
-  	command "/usr/bin/php -c /etc/php/7.0/fpm/php.ini {#node['app']['document_root']}/bin/magento cron:run >> {#node['app']['document_root']}/var/log/magento.cron.log&"
-  	elsif node.recipe?('apache2::mod_php7')
-	command "/usr/bin/php -c /etc/php/7.0/apache2/php.ini {#node['app']['document_root']}/bin/magento cron:run >> {#node['app']['document_root']}/var/log/magento.cron.log&"
-	end
+  	command "/usr/bin/php -c /etc/php/php.ini {#node['app']['document_root']}/bin/magento cron:run >> {#node['app']['document_root']}/var/log/magento.cron.log&"
   end
 
   cron 'magento_setup_cron' do
@@ -43,11 +39,7 @@ if node['app']['runs_cron']
   	minute '*/1'
   	user node['app']['cron_user']
   	mailto 'sysadmin@aligent.com.au'
-  	if node.recipe?('php-fpm')
-  	command "/usr/bin/php -c /etc/php/7.0/fpm/php.ini {#node['app']['document_root']}/bin/magento setup:cron:run >> {#node['app']['document_root']}/var/log/setup.cron.log&"
-  	elsif node.recipe?('apache2::mod_php7')
-	command "/usr/bin/php -c /etc/php/7.0/apache2/php.ini {#node['app']['document_root']}/bin/magento setup:cron:run >> {#node['app']['document_root']}/var/log/setup.cron.log&"
-  	end
+  	command "/usr/bin/php -c /etc/php/php.ini {#node['app']['document_root']}/bin/magento setup:cron:run >> {#node['app']['document_root']}/var/log/setup.cron.log&"
   end
 
 end
