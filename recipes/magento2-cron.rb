@@ -31,7 +31,7 @@ if node['app']['runs_cron']
     minute '*/1'
     user node['app']['cron_user']
     mailto 'sysadmin@aligent.com.au'
-  	command "/usr/bin/php -c /etc/php/php.ini {#node['app']['document_root']}/bin/magento cron:run >> {#node['app']['document_root']}/var/log/magento.cron.log&"
+  	command "/usr/bin/php -c /etc/php/php.ini #{node['app']['document_root']}/bin/magento cron:run >> #{node['app']['document_root']}/var/log/magento.cron.log&"
   end
 
   cron 'magento_setup_cron' do
@@ -39,7 +39,7 @@ if node['app']['runs_cron']
   	minute '*/1'
   	user node['app']['cron_user']
   	mailto 'sysadmin@aligent.com.au'
-  	command "/usr/bin/php -c /etc/php/php.ini {#node['app']['document_root']}/bin/magento setup:cron:run >> {#node['app']['document_root']}/var/log/setup.cron.log&"
+  	command "/usr/bin/php -c /etc/php/php.ini #{node['app']['document_root']}/bin/magento setup:cron:run >> #{node['app']['document_root']}/var/log/setup.cron.log&"
   end
 
 end
