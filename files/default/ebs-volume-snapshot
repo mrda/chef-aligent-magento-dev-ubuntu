@@ -76,7 +76,7 @@ STACK="$(${STACK_COMMAND})"
 
 # Test and log variables
 #
-[[ ! ${VOLUME_ID-} =~ ^vol-[0-9a-f]{,8}$ ]] \
+[[ ! ${VOLUME_ID-} =~ ^vol-[0-9a-f]{8,17}$ ]] \
     && log "ERROR: Failed to set VOLUME_ID '${VOLUME_ID}'" \
     && log "COMMAND: ${VOLUME_COMMAND}" \
     && exit 1
