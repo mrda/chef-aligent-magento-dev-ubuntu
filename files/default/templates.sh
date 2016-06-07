@@ -1,8 +1,9 @@
 #!/bin/bash
 
-for target in /etc/nginx/nginx.conf /etc/my.conf; do
+TARGETS=(/etc/nginx/nginx.conf /etc/my.conf)
 
+for target in ${TARGETS[@]}; do
     template="${target}.template"
 
-    process-template.sh $template $target
+    process-template.sh "${template}" "${target}"
 done
