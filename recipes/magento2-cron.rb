@@ -26,6 +26,14 @@
 
 if node['app']['runs_cron']
 
+  #This may start before codedeploy drops the file structure onto the server, so manually create a var/log directory to prevent early errors.
+  directory "#{node['app']['document_root']}/var/log" do
+    owner node['app']['cron_user']
+    group node['app']['cron_user']
+    mode '0775'
+    action :create
+  end
+
   cron 'magento_cron' do
     action :create
     minute '*/1'
