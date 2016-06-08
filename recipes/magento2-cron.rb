@@ -32,6 +32,7 @@ if node['app']['runs_cron']
     group "centos"
     mode '0775'
     action :create
+    recursive true
   end
 
   cron 'magento_cron' do
