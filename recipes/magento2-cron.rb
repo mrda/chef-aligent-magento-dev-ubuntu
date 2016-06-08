@@ -28,8 +28,8 @@ if node['app']['runs_cron']
 
   #This may start before codedeploy drops the file structure onto the server, so manually create a var/log directory to prevent early errors.
   directory "#{node['app']['document_root']}/var/log" do
-    owner node['app']['cron_user']
-    group node['app']['cron_user']
+    owner "apache"
+    group "centos"
     mode '0775'
     action :create
   end
