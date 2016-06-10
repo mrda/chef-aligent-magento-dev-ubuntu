@@ -3,7 +3,7 @@
 template=$1
 target=$2
 
-. /etc/profile.d/cf-stack-environment.sh
+source /etc/profile.d/cf-stack-environment.sh
 
 if [ -f $template ]; then
     sed -e "s/%BACKEND_ELB_HOST_NAME%/$BACKEND_ELB_HOST_NAME/g" \
