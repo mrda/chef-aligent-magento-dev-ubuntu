@@ -108,6 +108,12 @@ log "INFO: Creating snapshot for volume: '${VOLUME_ID}'"
     ${VOLUME_ID} 2>&1 \
     | tee -a ${LOG}
 
+retr=${PIPESTATUS[0]}
+
+[[ ${retr} -gt 0 ]] \
+    && log "ERROR: ec2-consistent-snapshot did not exit zero; exiting." \
+    && exit ${retr}
+
 
 # Prune obsolete snapshots
 #
