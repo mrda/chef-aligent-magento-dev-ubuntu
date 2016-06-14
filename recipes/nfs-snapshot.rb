@@ -47,8 +47,12 @@ cpan_client 'Net::Amazon::EC2' do
     action       'install'
 end
 
+# Alestic maintains the upstream of the ec2-tools used here; with one minor exception below
 # https://raw.githubusercontent.com/alestic/ec2-consistent-snapshot/8f65903de4a520c1693476022a37fa43c5783d60/ec2-consistent-snapshot
-# https://raw.githubusercontent.com/alestic/ec2-expire-snapshots/757e6ff772d2cf5afa0a355f02a57c0afe4a5be2/ec2-expire-snapshots
+#
+# NOTE: this version of ec2-expire-snapshots has a needed feature of only deleteing snaps with a certain tag. As we
+# need to delete based on tag now and this patch is in PR (since DEC 2015) we are doing it semi-live.
+# https://raw.githubusercontent.com/gnustavo/ec2-expire-snapshots/33fb41786dbf1d06965f4879ca6aa81ba2ebb3da/ec2-expire-snapshots
 %w{ec2-consistent-snapshot ec2-expire-snapshots ebs-volume-snapshot}.each do |script|
     cookbook_file "/usr/local/sbin/#{script}" do
         action :create
@@ -62,6 +66,7 @@ end
 cron 'nfs_snapshot_script' do
     action  :create
     hour    '15'
+    minute  '15'
     user    'root'
     mailto  'sysadmin@aligent.com.au'
     command '/usr/local/sbin/ebs-volume-snapshot'
