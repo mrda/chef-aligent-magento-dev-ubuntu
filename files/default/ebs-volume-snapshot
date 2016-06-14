@@ -103,7 +103,7 @@ log "INFO: Creating snapshot for volume: '${VOLUME_ID}'"
 /usr/local/sbin/ec2-consistent-snapshot \
     --region ${REGION} \
     --use-iam-role \
-    --tag "SNAPSHOT_TYPE=ec2-consistent-snapshot;STACK=${STACK}" \
+    --tag "ec2-consistent-snapshot;STACK=${STACK}" \
     --freeze-filesystem /nfs \
     ${VOLUME_ID} 2>&1 \
     | tee -a ${LOG}
@@ -121,6 +121,7 @@ log "INFO: Pruning snapshots of volume: '${VOLUME_ID}'"
 /usr/local/sbin/ec2-expire-snapshots \
     --region ${REGION} \
     --use-iam-role \
+    --tag "ec2-consistent-snapshot" \
     $([[ ${KEEP_DAILY-} ]] && echo "--keep-first-daily ${KEEP_DAILY}") \
     $([[ ${KEEP_WEEKLY-} ]] && echo "--keep-first-weekly ${KEEP_WEEKLY}") \
     $([[ ${KEEP_MONTHLY-} ]] && echo "--keep-first-monthly ${KEEP_MONTHLY}") \
