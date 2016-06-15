@@ -68,6 +68,7 @@ cron 'nfs_snapshot_script' do
     hour    '15'
     minute  '15'
     user    'root'
+    path    '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin'
     mailto  'sysadmin@aligent.com.au'
     command '/usr/local/sbin/ebs-volume-snapshot'
 end
