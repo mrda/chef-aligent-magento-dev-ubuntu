@@ -30,6 +30,7 @@ my $use_iam_role               = 0;
 my $region                     = undef;
 my $ec2_endpoint               = undef;
 my $volume_id_in_tag           = undef;
+my $tag                        = undef;
 my $delete_delay               = undef;
 
 my $force_delete_all           = undef;
@@ -61,6 +62,7 @@ GetOptions(
   'use-iam-role'                 => \$use_iam_role,
   'region=s'                     => \$region,
   'volume-id-in-tag=s'           => \$volume_id_in_tag,
+  'tag=s'                        => \$tag,
   'delete-delay=i'               => \$delete_delay,
 
   'force-delete-all'             => \$force_delete_all,
@@ -117,7 +119,7 @@ my $ec2 = Net::Amazon::EC2->new(
     # ($Debug ? (debug => 1) : ()),
   );
 
-my $snapshots_for_volumes = snapshots_for_volumes($ec2,$volume_id_in_tag,@volume_ids);
+my $snapshots_for_volumes = snapshots_for_volumes($ec2,$volume_id_in_tag,$tag,@volume_ids);
 for my $volume_id ( @volume_ids ) {
     expire_snapshots_for_volume($ec2, $volume_id,
                                 $snapshots_for_volumes->{$volume_id},
@@ -171,10 +173,11 @@ sub read_awssecret {
 
 # Return hash of { volume_id => [ snapshot, snapshot, ... ], ... }
 sub snapshots_for_volumes {
-    my ($ec2,$volume_id_in_tag,@volume_ids) = @_;
+    my ($ec2,$volume_id_in_tag,$tag,@volume_ids) = @_;
 
     my @filters;
     $volume_id_in_tag and push @filters, ['tag-key', $volume_id_in_tag];
+    $tag              and push @filters, ["tag:$tag", ''];
     @volume_ids       and push @filters, ['volume-id', @volume_ids];
 
     $Debug and warn "$Prog: Retrieving snapshot list\n";
@@ -218,7 +221,6 @@ sub expire_snapshots_for_volume {
                                       ($count_to_delete == 1 ? "" : "s"),"\n";
 
     my $index = 0;
-  SNAPSHOT:
     for my $snapshot ( @$snapshots_to_delete ) {
         if ( $index > 0 && $delete_delay ) {
             $Quiet or warn "$Prog: Sleeping $delete_delay second/s between deletes\n";
@@ -233,17 +235,9 @@ sub expire_snapshots_for_volume {
                 $ec2->delete_snapshot(SnapshotId => $snapshot_id)
                     or die "$Prog: ERROR deleting snapshot: $snapshot_id\n";
             };
-            if ( my $errors = $@ ){
-                if ( ref $errors && ref $errors eq 'Net::Amazon::EC2::Errors' ) {
-                    foreach my $error (@{$errors->errors}) {
-                        if ($error->code eq 'InvalidSnapshot.InUse') {
-                            warn "Skipping deleting snapshot $snapshot_id: $error\n";
-                            next SNAPSHOT;
-                        }
-                    }
-                }
+            if ( $@  ){
                 die "$Prog: ERROR: delete_snapshot $snapshot_id: ",
-                    ec2_error_message($errors);
+                    ec2_error_message($@);
             }
         }
 
@@ -595,6 +589,14 @@ replacing the volume-id that is returned by the API. The common
 use is for when snapshots are copied across regions. This is so
 a consistent expiration schedule can be kept, without regards to
 the new volume-id generated each time a copy is made.
+
+=item C<--tag TAGNAME>
+
+Specifies the name of a tag that must be present on the snapshot for it to
+be selected for expiration. It's useful, for example, if you tag all your
+backup snapshots with a tag like 'backup', to avoid expiring snapshots taken
+for other purposes. In this case, select only backup snapshots by specifying
+the option C<--tag backup>.
 
 =item C<--delete-delay DELAY_IN_SECONDS>
 

@@ -2,8 +2,8 @@
 #
 # EBS Volume Snapshot Script
 #
-# This is a stand alone all-in-one script to create and prune snapshots for the ebs volume attached to ebs4
-# (/dev/sdf|/dev/xvdf) on the instance it is run on.
+# This is a stand alone all-in-one script to create and prune snapshots for the ebs volume mounted at /nfs on the
+# instance it is run on.
 #
 # Most of the variables are created on the fly with each running of the script. This ensures that even in the event of
 # a live volume swap the script is smart enough to Just Work™. An EBS snapshot is, by default, restricted to only being
@@ -42,7 +42,7 @@ log () {
     local message="$@"
     [[ ! -f ${LOG} ]] && touch ${LOG} && chmod 600 ${LOG}
     echo "$(date --iso-8601=seconds) ${message}" >> ${LOG}
-    echo "${message}" &>2
+    echo "${message}" >&2
 }
 
 aws_curl () {
@@ -53,26 +53,30 @@ aws_curl () {
 # Dynamic Variables
 #
 INSTANCE_ID="$(aws_curl instance-id)"
-EBS_DEV="$(aws_curl block-device-mapping/ebs4)"
 AVAILABILITY_ZONE="$(aws_curl placement/availability-zone)"
 REGION=${AVAILABILITY_ZONE%?}
+EBS_DEV="$(grep '/nfs xfs' /proc/mounts | awk '{print $1}')"
+
+[[ -z ${EBS_DEV} ]] \
+    && log "ERROR: Failed to set EBS device. No XFS formatted block device mounted at /nfs" \
+    && exit 1
 
 VOLUME_COMMAND="aws ec2 describe-volumes \
     --region ${REGION} \
     --filters \
-        'Name=attachment.instance-id,Values=${INSTANCE_ID}' \
-        'Name=attachment.device,Values=${EBS_DEV}' \
-    --query "Volumes[].VolumeId" \
+        Name=attachment.instance-id,Values=${INSTANCE_ID} \
+        Name=attachment.device,Values=${EBS_DEV} \
+    --query 'Volumes[].VolumeId' \
     --output text"
-VOLUME_ID="$(${VOLUME_COMMAND})"
+VOLUME_ID="$(eval ${VOLUME_COMMAND})"
 
 STACK_COMMAND="aws ec2 describe-instances \
     --region ${REGION} \
     --instance-id ${INSTANCE_ID} \
-    --query 'Reservations[].Instances[].[Tags[?Key=='ah_stage']]' \
+    --query \"Reservations[].Instances[].[Tags[?Key=='ah_stage']]\" \
     --output text \
     | awk '{print \$2}'"
-STACK="$(${STACK_COMMAND})"
+STACK="$(eval ${STACK_COMMAND})"
 
 # Test and log variables
 #
@@ -96,25 +100,32 @@ log "INFO: STACK=${STACK}"
 # Create an EBS volume snapshot
 #
 log "INFO: Creating snapshot for volume: '${VOLUME_ID}'"
-ec2-consistent-snapshot \
+/usr/local/sbin/ec2-consistent-snapshot \
     --region ${REGION} \
     --use-iam-role \
-    --tag "SNAPSHOT_TYPE=ec2-consistent-snapshot;STACK=${STACK}" \
+    --tag "ec2-consistent-snapshot;STACK=${STACK}" \
     --freeze-filesystem /nfs \
-    ${VOLUME_ID} \
+    ${VOLUME_ID} 2>&1 \
     | tee -a ${LOG}
+
+retr=${PIPESTATUS[0]}
+
+[[ ${retr} -gt 0 ]] \
+    && log "ERROR: ec2-consistent-snapshot did not exit zero; exiting." \
+    && exit ${retr}
 
 
 # Prune obsolete snapshots
 #
 log "INFO: Pruning snapshots of volume: '${VOLUME_ID}'"
-ec2-expire-snapshots \
+/usr/local/sbin/ec2-expire-snapshots \
     --region ${REGION} \
     --use-iam-role \
+    --tag "ec2-consistent-snapshot" \
     $([[ ${KEEP_DAILY-} ]] && echo "--keep-first-daily ${KEEP_DAILY}") \
     $([[ ${KEEP_WEEKLY-} ]] && echo "--keep-first-weekly ${KEEP_WEEKLY}") \
     $([[ ${KEEP_MONTHLY-} ]] && echo "--keep-first-monthly ${KEEP_MONTHLY}") \
-    ${VOLUME_ID} \
+    ${VOLUME_ID} 2>&1 \
     | tee -a ${LOG}
 
 log "INFO: Volume snapshot and pruning is complete. Have a nice day!"
