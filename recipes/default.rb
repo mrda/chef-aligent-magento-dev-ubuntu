@@ -23,3 +23,21 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+if node['hostname'] == 'vagrant'
+    group 'centos' do
+        action     :create
+        gid        '2000'
+        append     true
+        non_unique true
+    end
+
+    user 'centos' do
+        action     :create
+        comment    'Duplicate centos user to replicate the default user on AWS'
+        uid        '2000'
+        gid        'centos'
+        home       '/home/centos'
+        shell      '/bin/bash'
+        non_unique true
+    end
+end
