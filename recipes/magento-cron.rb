@@ -28,7 +28,7 @@ if node['app']['runs_cron']
 
   cron 'magento_cron' do
     action :create
-    minute '*/5'
+    minute '*'
     user node['app']['cron_user']
     mailto 'sysadmin@aligent.com.au'
     command "if [ -x #{node['app']['document_root']}/cron.sh ]; then #{node['app']['document_root']}/cron.sh; fi"
