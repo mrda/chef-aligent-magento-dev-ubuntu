@@ -36,8 +36,8 @@
             <EcomDev_PHPUnitTest/>
             <Aoe_TemplateHints/>
 
-            <% node['app']['phpunit']['disable_modules'].each do |module| %>
-                <%= "<#{domain} />" %>
+            <% node['app']['phpunit']['disable_modules'].each do |mage_module| %>
+                <%= "<#{mage_module} />" %>
             <% end %>
         </disable_modules>
     </phpunit>
