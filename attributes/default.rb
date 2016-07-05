@@ -33,6 +33,8 @@ default['app']['opcache']['revalidate_freq'] = 60
 default['app']['prompt']['stack'] = 'vagrant'
 default['app']['prompt']['role'] = 'default'
 
+default['app']['dev']['phpunit']['disable_modules'] = []
+
 default['varnish']['version'] = '3.0'
 default['varnish']['vcl_cookbook'] = 'aligent-magento-dev'
 default['varnish']['backend_host'] = 'localhost'
