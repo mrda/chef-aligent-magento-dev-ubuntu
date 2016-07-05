@@ -1,6 +1,6 @@
 #
 ## Cookbook Name:: aligent-magento-dev
-## Recipe:: aws-prompt
+## Recipe:: aws-prompt-vagrant
 ##
 ## Copyright 2016, Aligent Consulting
 ##
@@ -26,10 +26,9 @@
 #
 
 
-cookbook_file '/etc/profile.d/cf-stack-prompt.sh' do
-  source 'cf-stack-prompt.sh'
+template '/etc/profile.d/cf-stack-environment.sh' do
+  source "cf-stack-environment.sh.erb"
+  mode 0644
   owner 'root'
   group 'root'
-  mode '0644'
-  action :create
 end

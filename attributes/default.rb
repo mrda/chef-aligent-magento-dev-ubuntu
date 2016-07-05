@@ -30,6 +30,9 @@ default['app']['opcache']['max_accelerated_files'] = 20000
 default['app']['opcache']['validate_timestamps'] = 0
 default['app']['opcache']['revalidate_freq'] = 60
 
+default['app']['prompt']['stack'] = 'vagrant'
+default['app']['prompt']['role'] = 'default'
+
 default['varnish']['version'] = '3.0'
 default['varnish']['vcl_cookbook'] = 'aligent-magento-dev'
 default['varnish']['backend_host'] = 'localhost'
