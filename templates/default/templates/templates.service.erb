@@ -1,7 +1,7 @@
 [Unit]
 Description=Create templated configs
-After=<%= default['app']['templates']['after'] %>
-Before=<%= default['app']['templates']['before'] %>
+After=<%= node['app']['templates']['after'] %>
+Before=<%= node['app']['templates']['before'] %>
 
 [Service]
 Type=oneshot
