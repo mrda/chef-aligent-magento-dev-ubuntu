@@ -24,24 +24,24 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-cookbook_file '/etc/systemd/system/templates.service' do
-  source 'templates.service'
+template '/etc/systemd/system/templates.service' do
+  source 'templates/templates.service'
   owner 'root'
   group 'root'
   mode '0644'
   action :create
 end
 
-cookbook_file '/usr/local/sbin/templates.sh' do
-  source 'templates.sh'
+template '/usr/local/sbin/templates.sh' do
+  source 'templates/templates.sh'
   owner 'root'
   group 'root'
   mode '0755'
   action :create
 end
 
-cookbook_file '/usr/local/sbin/process-template.sh' do
-  source 'process-template.sh'
+template '/usr/local/sbin/process-template.sh' do
+  source 'templates/process-template.sh'
   owner 'root'
   group 'root'
   mode '0755'

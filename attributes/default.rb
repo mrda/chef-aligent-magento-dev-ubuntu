@@ -35,6 +35,9 @@ default['app']['prompt']['role'] = 'default'
 
 default['app']['dev']['phpunit']['disable_modules'] = []
 
+default['app']['templates']['after'] = "varnish.service"
+default['app']['templates']['before'] = "cloud-final.service"
+'/etc/nginx/nginx.conf /etc/my.conf'
 default['varnish']['version'] = '3.0'
 default['varnish']['vcl_cookbook'] = 'aligent-magento-dev'
 default['varnish']['backend_host'] = 'localhost'

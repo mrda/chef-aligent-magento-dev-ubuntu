@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGETS=(/etc/nginx/nginx.conf /etc/my.conf)
+TARGETS=(<%= node['app']['templates']['file_list'] %>)
 
 for target in ${TARGETS[@]}; do
     template="${target}.template"
