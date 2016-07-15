@@ -25,7 +25,7 @@
 #
 
 template '/etc/systemd/system/templates.service' do
-  source 'templates/templates.service'
+  source 'templates/templates.service.erb'
   owner 'root'
   group 'root'
   mode '0644'
@@ -33,7 +33,7 @@ template '/etc/systemd/system/templates.service' do
 end
 
 template '/usr/local/sbin/templates.sh' do
-  source 'templates/templates.sh'
+  source 'templates/templates.sh.erb'
   owner 'root'
   group 'root'
   mode '0755'
@@ -41,7 +41,7 @@ template '/usr/local/sbin/templates.sh' do
 end
 
 template '/usr/local/sbin/process-template.sh' do
-  source 'templates/process-template.sh'
+  source 'templates/process-template.sh.erb'
   owner 'root'
   group 'root'
   mode '0755'
