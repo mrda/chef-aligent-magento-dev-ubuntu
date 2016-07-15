@@ -1,0 +1,14 @@
+#!/bin/bash
+export RELOAD_VCL=1
+export VARNISH_VCL_CONF=/etc/varnish/default.vcl
+export VARNISH_ADMIN_LISTEN_ADDRESS=127.0.0.1
+export VARNISH_ADMIN_LISTEN_PORT=6082
+export VARNISH_SECRET_FILE=/etc/varnish/secret
+varnish_reload_vcl
+
+varnishadm vcl.list | \
+	grep -v active |
+	awk '{print $3}' | \
+	xargs -l varnishadm vcl.discard
+
+exit 0
