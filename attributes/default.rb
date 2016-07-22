@@ -22,6 +22,23 @@ default['app']['cron_user'] = "vagrant"
 
 default['app']['vhost_cookbook'] = 'aligent-magento-dev'
 
+default['app']['database_engine'] = 'mysql'
+
+default['app']['opcache']['installed'] = false
+default['app']['opcache']['enabled'] = true
+default['app']['opcache']['max_accelerated_files'] = 20000
+default['app']['opcache']['validate_timestamps'] = 0
+default['app']['opcache']['revalidate_freq'] = 60
+
+default['app']['prompt']['stack'] = 'vagrant'
+default['app']['prompt']['role'] = 'default'
+
+default['app']['dev']['phpunit']['disable_modules'] = []
+
+default['app']['templates']['before'] = "varnish.service"
+default['app']['templates']['after'] = "cloud-final.service"
+default['app']['templates']['file_list'] = '/etc/default/varnish-elb /etc/my.conf'
+
 default['varnish']['version'] = '3.0'
 default['varnish']['vcl_cookbook'] = 'aligent-magento-dev'
 default['varnish']['backend_host'] = 'localhost'

@@ -1,7 +1,7 @@
 [Unit]
 Description=Create templated configs
-After=cloud-final.service
-Before=nginx.service
+After=<%= node['app']['templates']['after'] %>
+Before=<%= node['app']['templates']['before'] %>
 
 [Service]
 Type=oneshot

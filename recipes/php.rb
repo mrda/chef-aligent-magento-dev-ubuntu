@@ -41,10 +41,14 @@ file "/etc/php.d/timezone.ini" do
 end
 
 
-cookbook_file '/etc/php.d/zz-magento.ini' do
-  source 'zz-magento.ini'
+template "/etc/php.d/zz-magento.ini" do
+  source "zz-magento.ini.erb"
+  mode '0644'
   owner 'root'
   group 'root'
-  mode '0644'
-  action :create
+  if node.recipe?('php-fpm')
+    notifies :restart, 'service[php-fpm]'
+  elsif node.recipe?('apache2::mod_php5')
+    notifies :restart, 'service[apache2]'
+  end
 end

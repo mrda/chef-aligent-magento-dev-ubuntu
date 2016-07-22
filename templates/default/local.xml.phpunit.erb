@@ -32,9 +32,13 @@
         <allow_same_db>0</allow_same_db>
         <disable_modules>
             <Jonathanday_Commercebug/>
-            <!--<Aoe_DesignFallback/>-->
+            <Aligentconsulting_Commercebug/>
             <EcomDev_PHPUnitTest/>
             <Aoe_TemplateHints/>
+
+            <% node['app']['phpunit']['disable_modules'].each do |mage_module| %>
+                <%= "<#{mage_module} />" %>
+            <% end %>
         </disable_modules>
     </phpunit>
 </config>

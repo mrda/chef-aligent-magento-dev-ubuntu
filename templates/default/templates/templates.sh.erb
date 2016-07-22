@@ -1,0 +1,9 @@
+#!/bin/bash
+
+TARGETS=(<%= node['app']['templates']['file_list'] %>)
+
+for target in ${TARGETS[@]}; do
+    template="${target}.template"
+
+    process-template.sh "${template}" "${target}"
+done

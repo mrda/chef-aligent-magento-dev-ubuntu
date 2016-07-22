@@ -1,0 +1,17 @@
+max_execution_time=3600
+memory_limit=1024M
+session.auto_start=off
+suhosin.session.cryptua=off
+zend.ze1_compatibility_mode=Off
+max_input_vars=20000
+
+<% if node['app']['opcache']['installed'] %>
+    <% if node['app']['opcache']['enabled'] %>
+opcache.enable=1
+opcache.max_accelerated_files=<%= node['app']['opcache']['max_accelerated_files'] %>
+opcache.validate_timestamps=<%= node['app']['opcache']['validate_timestamps'] %>
+opcache.opcache.revalidate_freq=<%= node['app']['opcache']['revalidate_freq'] %>
+    <% else %>
+opcache.enable=0
+    <% end %>
+<% end %>

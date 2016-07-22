@@ -1,0 +1,8 @@
+[Unit]
+Requires=varnish.service
+Description=Reload Varnish Director VCL
+After=varnish.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/reload_vcl

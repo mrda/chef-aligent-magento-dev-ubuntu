@@ -1,0 +1,10 @@
+[Unit]
+Requires=varnish.service
+Description=Reload Varnish if specified VCL is changed
+
+[Path]
+PathChanged=/etc/varnish/
+Unit=varnish-reload.service
+
+[Install]
+WantedBy=multi-user.target
