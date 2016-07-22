@@ -38,6 +38,7 @@ default['app']['dev']['phpunit']['disable_modules'] = []
 default['app']['templates']['before'] = "varnish.service"
 default['app']['templates']['after'] = "cloud-final.service"
 default['app']['templates']['file_list'] = '/etc/default/varnish-elb /etc/my.conf'
+default['app']['templates']['process_template_cookbook'] = 'aligent-magento-dev'
 
 default['varnish']['version'] = '3.0'
 default['varnish']['vcl_cookbook'] = 'aligent-magento-dev'

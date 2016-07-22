@@ -45,6 +45,7 @@ template '/usr/local/sbin/process-template.sh' do
   owner 'root'
   group 'root'
   mode '0755'
+  cookbook node['app']['templates']['process_template_cookbook']
   action :create
 end
 
