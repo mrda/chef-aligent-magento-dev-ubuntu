@@ -43,6 +43,9 @@
         SetEnv <%= "#{param} '#{value}'" %>
     <% end %>
 
+    SetEnvIf X-Frontend-Proto ^https$ HTTPS=on
+    SetEnvIf X-Frontend-Proto ^http$ HTTPS=off
+
     # CentOS 6/mod_fastcgi configuration not required on CentOS 7.
     <IfModule mod_fastcgi.c>
         Alias /php.fcgi /var/www/cgi-bin/php.fgi
