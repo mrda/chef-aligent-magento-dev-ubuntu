@@ -1,6 +1,6 @@
 #
 ## Cookbook Name:: aligent-magento-dev
-## Recipe:: mysql-client
+## Recipe:: yum-nexcess-scl
 ##
 ## Copyright 2015, Aligent Consulting
 ##
@@ -25,23 +25,13 @@
 ##
 #
 
-if node['app']['database_engine'] == 'mysql' || node['app']['database_engine'] == nil
-    mysql_client 'default' do
-        version node['mysql']['server_version']
-        action :create
-    end
-
-    mysql2_chef_gem 'default' do
-      client_version node['mysql']['server_version']
-      action :install
-    end
-
-else
-    include_recipe "mariadb::client"
-
-    mysql2_chef_gem 'default' do
-      provider Chef::Provider::Mysql2ChefGem::Mariadb
-      action :install
-    end
-
+# Configure the Nexcess SCL yum repo so we can match their php versions for
+# PHP 5.4 and 5.5
+yum_repository "nexcess_scl" do
+    description "Nexcess Repo SCL"
+    baseurl "http://rpms.nexcess.net/el/$releasever/scl/$basearch/"
+    gpgcheck true
+    gpgkey "http://rpms.nexcess.net/RPM-GPG-KEY-NEXCESS"
+    enabled true
+    exclude "mysql* varnish* php55u-php-mysql*"
 end

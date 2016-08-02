@@ -25,11 +25,21 @@
 ##
 #
 
-mysql_service 'default' do
-  version node['mysql']['server_version']
-  bind_address '0.0.0.0'
-  port '3306'
-  data_dir '/var/lib/mysql'
-  initial_root_password node['mysql']['server_root_password']
-  action [:create, :start]
+if node['app']['database_engine'] == 'mysql' || node['app']['database_engine'] == nil
+    mysql_service 'default' do
+        version node['mysql']['server_version']
+        bind_address '0.0.0.0'
+        port '3306'
+        data_dir '/var/lib/mysql'
+        initial_root_password node['mysql']['server_root_password']
+        action [:create, :start]
+    end
+
+    mysql_config 'default' do
+        source 'mysql_config.erb'
+        notifies :restart, 'mysql_service[default]'
+        action :create
+    end
+else
+    include_recipe 'mariadb::server'
 end

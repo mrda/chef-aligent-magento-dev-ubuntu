@@ -1,19 +1,26 @@
+<% run_codes = node['app']['run_codes'] %>
+<% host_names = node['app']['host_names'] %>
+<% if (host_names == nil || host_names.empty?) && (run_codes != nil && !run_codes.empty?) %>
+    <% host_names = run_codes.keys %>
+<% end %>
+
+# CentOS 6/mod_fastcgi configuration not required on CentOS 7.
 <IfModule mod_fastcgi.c>
     AddType application/x-httpd-php .php
     Action application/x-httpd-php /php.fcgi
+    FastCgiExternalServer /var/www/cgi-bin/php.fgi -socket /var/run/php-fpm-www.sock -pass-header Authorization  -idle-timeout <%= node['php-fpm']['pools']['www'][:request_terminate_timeout] %>
 </IfModule>
-FastCgiExternalServer /var/www/cgi-bin/php.fgi -socket /var/run/php-fpm-www.sock -pass-header Authorization  -idle-timeout <%= node['php-fpm']['pools']['www'][:request_terminate_timeout] %>
 
 <Directory <%= node['app']['document_root'] %>>
 	AllowOverride All
+	Require all granted
 </Directory>
 
 <VirtualHost *:80>
 	ServerAdmin sysadmin@aligent.com.au
-	<% run_codes = node['app']['run_codes'] %>
-    <% if run_codes != nil && !run_codes.empty? %>
-        <% run_codes.each do |domain, code| %>
-            <% if code == run_codes.first %>
+    <% if host_names != nil && !host_names.empty? %>
+        <% host_names.each do |domain| %>
+            <% if domain == host_names.first %>
                 ServerName <%= domain %>
             <% else %>
                 ServerAlias <%= domain %>
@@ -36,7 +43,13 @@ FastCgiExternalServer /var/www/cgi-bin/php.fgi -socket /var/run/php-fpm-www.sock
         SetEnv <%= "#{param} '#{value}'" %>
     <% end %>
 
-    Alias /php.fcgi /var/www/cgi-bin/php.fgi
+    SetEnvIf X-Frontend-Proto ^https$ HTTPS=on
+    SetEnvIf X-Frontend-Proto ^http$ HTTPS=off
+
+    # CentOS 6/mod_fastcgi configuration not required on CentOS 7.
+    <IfModule mod_fastcgi.c>
+        Alias /php.fcgi /var/www/cgi-bin/php.fgi
+    </IfModule>
 
 	ErrorLog logs/error-<%= node['app']['name'] %>.log
 
@@ -51,10 +64,9 @@ NameVirtualHost *:443
 <VirtualHost *:443>
 	ServerAdmin sysadmin@aligent.com.au
 
-    <% if run_codes != nil && !run_codes.empty? %>
-        <% run_codes = node['app']['run_codes'] %>
-        <% run_codes.each do |domain, code| %>
-            <% if code == run_codes.first %>
+    <% if host_names != nil && !host_names.empty? %>
+        <% host_names.each do |index, domain| %>
+            <% if domain == host_names.first %>
                 ServerName <%= domain %>
             <% else %>
                 ServerAlias <%= domain %>
@@ -85,7 +97,10 @@ NameVirtualHost *:443
         SetEnv <%= "#{param} '#{value}'" %>
     <% end %>
 
-    Alias /php.fcgi /var/www/cgi-bin/php.fgi
+    # CentOS 6/mod_fastcgi configuration not required on CentOS 7.
+    <IfModule mod_fastcgi.c>
+        Alias /php.fcgi /var/www/cgi-bin/php.fgi
+    </IfModule>
 
 	ErrorLog logs/error-<%= node['app']['name'] %>.log
 

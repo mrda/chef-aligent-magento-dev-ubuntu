@@ -25,20 +25,40 @@
 ##
 #
 
-package "mod_fastcgi" do
-  action :install
+if platform_family?("rhel") && node['platform_version'].to_f >= 7.0
+    apache_module 'proxy' do
+        enable true
+    end
+
+#    apache_module 'proxy_http' do
+#        enable true
+#    end
+
+    apache_module 'proxy_fcgi' do
+        enable true
+    end
+
+    apache_conf 'php-fpm' do
+      enable true
+    end
+else
+    package 'mod_fastcgi' do
+      action :install
+    end
+
+    apache_module 'fastcgi' do
+        enable true
+        conf true
+    end
 end
 
-apache_module "fastcgi" do
-    enable true
-    conf true
-end
 
 template "#{node[:apache][:dir]}/sites-available/#{node['app']['name']}.conf" do
   source "apache2-cgi-vhost.erb"
   owner "root"
   group "root"
   mode 0644
+  cookbook node['app']['vhost_cookbook']
 end
 
 apache_site node['app']['name'] do

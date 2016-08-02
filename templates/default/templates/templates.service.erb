@@ -1,0 +1,11 @@
+[Unit]
+Description=Create templated configs
+After=<%= node['app']['templates']['after'] %>
+Before=<%= node['app']['templates']['before'] %>
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/templates.sh
+
+[Install]
+WantedBy=multi-user.target

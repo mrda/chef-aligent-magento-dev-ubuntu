@@ -1,8 +1,8 @@
 #
 ## Cookbook Name:: aligent-magento-dev
-## Recipe:: apache2-cgi-vhost
+## Recipe:: varnish
 ##
-## Copyright 2015, Aligent Consulting
+## Copyright 2016, Aligent Consulting
 ##
 ## Permission is hereby granted, free of charge, to any person obtaining
 ## a copy of this software and associated documentation files (the
@@ -27,4 +27,16 @@
 
 if node['app']['varnish']['enabled']
     include_recipe 'varnish'
+
+    if node['varnish']['vcl_generated'] == false
+        # Allows creation of a template VCL instead of generating the file
+        # when Chef runs.
+        template "#{node['varnish']['dir']}/#{node['varnish']['vcl_conf']}.template" do
+            source node['varnish']['vcl_source']
+            cookbook node['varnish']['vcl_cookbook']
+            owner 'root'
+            group 'root'
+            mode 0644
+        end
+    end
 end

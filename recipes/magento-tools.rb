@@ -25,6 +25,13 @@
 ##
 #
 
+%w{pv}.each do |pkg|
+  package pkg do
+    action :install
+  end
+end
+
+
 remote_file '/usr/local/bin/modman' do
   source 'https://raw.githubusercontent.com/colinmollenhour/modman/master/modman'
   owner 'root'

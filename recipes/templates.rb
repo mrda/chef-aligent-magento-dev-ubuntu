@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: aligent-magento-dev
-# Recipe:: default
+# Recipe:: templates
 #
-# Copyright 2015, (c) 2015 Aligent Consulting
+# Copyright 2016, (c) 2016 Aligent Consulting
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -23,21 +23,32 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-if node['hostname'] == 'vagrant'
-    group 'centos' do
-        action     :create
-        gid        '2000'
-        append     true
-        non_unique true
-    end
 
-    user 'centos' do
-        action     :create
-        comment    'Duplicate centos user to replicate the default user on AWS'
-        uid        '2000'
-        gid        'centos'
-        home       '/home/centos'
-        shell      '/bin/bash'
-        non_unique true
-    end
+template '/etc/systemd/system/templates.service' do
+  source 'templates/templates.service.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+  action :create
+end
+
+template '/usr/local/sbin/templates.sh' do
+  source 'templates/templates.sh.erb'
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
+template '/usr/local/sbin/process-template.sh' do
+  source 'templates/process-template.sh.erb'
+  owner 'root'
+  group 'root'
+  mode '0755'
+  cookbook node['app']['templates']['process_template_cookbook']
+  action :create
+end
+
+service "templates" do
+  action :enable
 end

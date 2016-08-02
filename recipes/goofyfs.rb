@@ -1,8 +1,8 @@
 #
 ## Cookbook Name:: aligent-magento-dev
-## Recipe:: mysql-client
+## Recipe:: goofyfs
 ##
-## Copyright 2015, Aligent Consulting
+## Copyright 2016, Aligent Consulting
 ##
 ## Permission is hereby granted, free of charge, to any person obtaining
 ## a copy of this software and associated documentation files (the
@@ -25,23 +25,17 @@
 ##
 #
 
-if node['app']['database_engine'] == 'mysql' || node['app']['database_engine'] == nil
-    mysql_client 'default' do
-        version node['mysql']['server_version']
-        action :create
-    end
-
-    mysql2_chef_gem 'default' do
-      client_version node['mysql']['server_version']
-      action :install
-    end
-
-else
-    include_recipe "mariadb::client"
-
-    mysql2_chef_gem 'default' do
-      provider Chef::Provider::Mysql2ChefGem::Mariadb
-      action :install
-    end
-
+%w{fuse}.each do |pkg|
+  package pkg do
+    action :install
+  end
 end
+
+remote_file '/usr/local/bin/goofyfs' do
+  source 'https://github.com/kahing/goofys/releases/download/v0.0.5/goofys'
+  owner 'root'
+  group 'root'
+  mode '0700'
+  action :create
+end
+

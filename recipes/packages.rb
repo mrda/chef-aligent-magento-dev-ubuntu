@@ -31,9 +31,9 @@
   end
 end
 
-file "/home/vagrant/.vimrc" do
-  owner "vagrant"
-  group "vagrant"
+file "/home/#{node['app']['primary_user']}/.vimrc" do
+  owner "#{node['app']['primary_user']}"
+  group "#{node['app']['primary_user']}"
   mode "0644"
   action :create
   content "colorscheme murphy\n"

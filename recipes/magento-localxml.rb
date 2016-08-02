@@ -24,17 +24,29 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+
+directory "#{node['app']['document_root']}/app/etc/" do
+  owner "apache"
+  group "apache"
+  mode 0755
+  recursive true
+  action :create
+end
+
 template "#{node['app']['document_root']}/app/etc/local.xml" do
   source "local.xml.erb"
   cookbook node['app']['local_xml_cookbook']
   mode 0644
-  owner "vagrant"
-  group "vagrant"
+  owner node['app']['primary_user']
+  group node['app']['primary_user']
 end
 
-template "#{node['app']['document_root']}/app/etc/local.xml.phpunit" do
-  source "local.xml.phpunit.erb"
-  mode 0644
-  owner "vagrant"
-  group "vagrant"
+
+if node['app']['mysql']['test']['enabled']
+  template "#{node['app']['document_root']}/app/etc/local.xml.phpunit" do
+    source "local.xml.phpunit.erb"
+    mode 0644
+    owner node['app']['primary_user']
+    group node['app']['primary_user']
+  end
 end

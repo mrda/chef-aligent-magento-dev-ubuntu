@@ -34,6 +34,7 @@ template "#{node[:nginx][:dir]}/sites-available/#{node['app']['name']}" do
   owner "root"
   group "root"
   mode 0644
+  cookbook node['app']['vhost_cookbook']
 end
 
 nginx_site node['app']['name'] do

@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: aligent-magento-dev
-# Recipe:: default
+# Recipe:: magento-cron
 #
-# Copyright 2015, (c) 2015 Aligent Consulting
+# Copyright 2016, (c) 2016 Aligent Consulting
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -23,21 +23,15 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-if node['hostname'] == 'vagrant'
-    group 'centos' do
-        action     :create
-        gid        '2000'
-        append     true
-        non_unique true
-    end
 
-    user 'centos' do
-        action     :create
-        comment    'Duplicate centos user to replicate the default user on AWS'
-        uid        '2000'
-        gid        'centos'
-        home       '/home/centos'
-        shell      '/bin/bash'
-        non_unique true
-    end
+if node['app']['runs_cron']
+
+  cron 'magento_cron' do
+    action :create
+    minute '*'
+    user node['app']['cron_user']
+    mailto 'sysadmin@aligent.com.au'
+    command "if [ -x #{node['app']['document_root']}/cron.sh ]; then #{node['app']['document_root']}/cron.sh; fi"
+  end
+
 end
