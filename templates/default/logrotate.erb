@@ -1,0 +1,9 @@
+<%= node['app']['document_root'] %>/var/log/*log {
+    weekly
+    missingok
+    notifempty
+    sharedscripts
+    compress
+    delaycompress
+    dateext
+}
