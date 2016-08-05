@@ -2,7 +2,7 @@
 
 . /etc/profile.d/cf-stack-environment.sh
 
-REDIS_KEY="zc:*:$1*"
+REDIS_KEY="zc:*:*"
 #echo "Clearing redis keys $REDIS_KEY..."
 for key in `echo "KEYS $REDIS_KEY" | /bin/redis-cli -h $ELASTICACHE_CACHE_SERVER | awk '{print $1}'`
 do

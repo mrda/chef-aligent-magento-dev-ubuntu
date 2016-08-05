@@ -1,6 +1,6 @@
 #
 ## Cookbook Name:: aligent-magento-dev
-## Recipe:: aws-prompt
+## Recipe:: aws-cache-flush
 ##
 ## Copyright 2016, Aligent Consulting
 ##
