@@ -26,6 +26,10 @@
 #
 
 
+package 'redis' do
+  action :install
+end
+
 cookbook_file '/usr/local/bin/cache-flush.sh' do
   source 'cache-flush.sh'
   owner 'root'
