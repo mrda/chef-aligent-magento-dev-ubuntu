@@ -16,3 +16,5 @@ depends 's3_file', '~> 2.7.0'
 depends 'varnish', '~> 2.3.0'
 depends 'mariadb', '~> 0.3.1'
 depends 'cpan', '~> 0.0.34'
+depends 'php-ioncube', '~> 0.2.1'
+
