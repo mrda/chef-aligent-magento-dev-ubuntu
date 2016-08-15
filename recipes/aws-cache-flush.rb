@@ -34,6 +34,6 @@ cookbook_file '/usr/local/bin/cache-flush.sh' do
   source 'cache-flush.sh'
   owner 'root'
   group 'root'
-  mode '0644'
+  mode '0755'
   action :create
 end
