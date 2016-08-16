@@ -17,6 +17,8 @@ default['app']['session_backend'] = "files"
 default['app']['session_backend_redis']['server'] = 'localhost'
 default['app']['session_backend_redis']['port'] = '6379'
 
+default['app']['fpc_backend'] = 'magento'
+
 default['app']['primary_user'] = "vagrant"
 default['app']['cron_user'] = "vagrant"
 default['app']['cron_mailto'] = "sysadmin@aligent.com.au"
