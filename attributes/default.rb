@@ -45,3 +45,4 @@ default['varnish']['vcl_cookbook'] = 'aligent-magento-dev'
 default['varnish']['backend_host'] = 'localhost'
 default['varnish']['backend_port'] = 80
 
+default['app']['ioncube']['enable'] = false
