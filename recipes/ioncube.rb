@@ -26,7 +26,7 @@
 #
 
 if node['app']['ioncube']['enabled']
-    include_recipe 'php-ioncube'
+    include_recipe 'php-ioncube::install'
 
 	file '/etc/php.d/ioncube.ini' do
 		action :delete
