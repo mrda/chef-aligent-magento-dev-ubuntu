@@ -17,6 +17,8 @@ if [ -f $template ]; then
         -e "s/%ELASTICACHE_CACHE_PREFIX%/$ELASTICACHE_CACHE_PREFIX/" \
         -e "s/%ELASTICACHE_SESSION_SERVER%/$ELASTICACHE_SESSION_SERVER/" \
         -e "s/%ELASTICACHE_SESSION_PORT%/$ELASTICACHE_SESSION_PORT/" \
+        -e "s/%VARNISH_CACHE_SERVER%/$VARNISH_CACHE_SERVER/" \
+        -e "s/%VARNISH_CACHE_PORT%/$VARNISH_CACHE_PORT/" \
         < $template > $target
 fi
 

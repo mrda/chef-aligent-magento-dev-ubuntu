@@ -30,7 +30,7 @@ if node['app']['runs_cron']
     action :create
     minute '*'
     user node['app']['cron_user']
-    mailto 'sysadmin@aligent.com.au'
+    mailto node['app']['cron_mailto']
     command "if [ -x #{node['app']['document_root']}/cron.sh ]; then #{node['app']['document_root']}/cron.sh; fi"
   end
 
