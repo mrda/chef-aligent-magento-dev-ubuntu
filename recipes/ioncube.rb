@@ -37,7 +37,7 @@ if node['app']['ioncube']['enabled']
 		owner 'root'
 		group 'root'
 		mode 0755
-		content 'zend_extension=/usr/local/ioncube/ioncube_loader_lin_5.5.so'
+		content 'zend_extension=/usr/local/ioncube/ioncube_loader_lin_5.6.so'
 		action :create
 	end
 
