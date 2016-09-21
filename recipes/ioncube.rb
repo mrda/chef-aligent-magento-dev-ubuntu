@@ -32,13 +32,4 @@ if node['app']['ioncube']['enabled']
 		action :delete
 		only_if { File.exist? '/etc/php.d/ioncube.ini' }
 	end
-
-	file "/etc/php.d/05-ioncube.ini" do
-		owner 'root'
-		group 'root'
-		mode 0755
-		content 'zend_extension=/usr/local/ioncube/ioncube_loader_lin_5.6.so'
-		action :create
-	end
-
 end
