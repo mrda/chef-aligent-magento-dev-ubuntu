@@ -36,6 +36,9 @@ default['app']['opcache']['revalidate_freq'] = 60
 default['app']['prompt']['stack'] = 'vagrant'
 default['app']['prompt']['role'] = 'default'
 
+default['app']['imagick']['enable'] = false
+default['app']['imagick']['version'] = "stable"
+
 default['app']['dev']['phpunit']['disable_modules'] = []
 
 default['app']['templates']['before'] = "varnish.service"
