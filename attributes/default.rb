@@ -15,7 +15,7 @@ default['app']['cache_backend_redis']['port'] = '6379'
 
 default['app']['session_backend'] = "files"
 default['app']['session_backend_redis']['server'] = 'localhost'
-default['app']['session_backend_redis']['port'] = '6379'
+default['app']['session_backend_redis']['port'] = '6380'
 
 default['app']['fpc_backend'] = 'magento'
 
@@ -52,3 +52,13 @@ default['varnish']['backend_host'] = 'localhost'
 default['varnish']['backend_port'] = 80
 
 default['app']['ioncube']['enabled'] = false
+
+default["redis2"]["instances"]["cache"]["port"] = default['app']['cache_backend_redis']['port']
+default["redis2"]["instances"]["cache"]["appendonly"] = "no"
+default["redis2"]["instances"]["cache"]["appendfsync"] = "everysec"
+default["redis2"]["instances"]["cache"]["bgsave"] = false
+
+default["redis2"]["instances"]["session"]["port"] = default['app']['session_backend_redis']['port']
+default["redis2"]["instances"]["session"]["appendonly"] = "yes"
+default["redis2"]["instances"]["session"]["appendfsync"] = "everysec"
+default["redis2"]["instances"]["cache"]["bgsave"] = false

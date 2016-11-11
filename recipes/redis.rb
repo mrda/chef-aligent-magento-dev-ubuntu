@@ -24,6 +24,27 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+if node['app']['cache_backend'] == 'redis' || node['app']['session_backend'] == 'redis'
+  include_recipe "redis2"
+end
+
 if node['app']['cache_backend'] == 'redis'
-  include_recipe 'redis2::default_instance'
+  # Remove old style "redis_prime" instance if it exists.
+  file ::File.join(node["redis2"]["conf_dir"], "redis_prime.conf") do
+    action :delete
+    notifies :disable, "runit_service[redis_prime]"
+  end
+
+  runit_service "redis_prime" do
+    action :disable
+  end
+
+  # Create cache instance using attribute values
+  redis_instance "cache"
+
+end
+
+if node['app']['cache_backend'] == 'redis'
+  # Create session instance using attribute values
+  redis_instance "session"
 end
