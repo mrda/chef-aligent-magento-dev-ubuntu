@@ -44,7 +44,7 @@ if node['app']['cache_backend'] == 'redis'
 
 end
 
-if node['app']['cache_backend'] == 'redis'
+if node['app']['session_backend'] == 'redis'
   # Create session instance using attribute values
   redis_instance "session"
 end
