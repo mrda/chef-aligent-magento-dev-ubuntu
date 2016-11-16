@@ -61,4 +61,4 @@ default["redis2"]["instances"]["cache"]["bgsave"] = false
 default["redis2"]["instances"]["session"]["port"] = default['app']['session_backend_redis']['port']
 default["redis2"]["instances"]["session"]["appendonly"] = "yes"
 default["redis2"]["instances"]["session"]["appendfsync"] = "everysec"
-default["redis2"]["instances"]["cache"]["bgsave"] = false
+default["redis2"]["instances"]["session"]["bgsave"] = false
