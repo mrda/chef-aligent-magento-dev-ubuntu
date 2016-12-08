@@ -40,7 +40,7 @@ remote_file '/usr/local/bin/modman' do
 end
 
 remote_file '/usr/local/bin/n98-magerun.phar' do
-  source 'https://github.com/netz98/n98-magerun/raw/master/n98-magerun.phar'
+  source 'https://files.magerun.net/n98-magerun.phar'
   owner 'root'
   group 'root'
   mode '755'
