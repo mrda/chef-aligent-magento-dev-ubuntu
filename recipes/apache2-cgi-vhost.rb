@@ -52,6 +52,9 @@ else
     end
 end
 
+apache_module 'version' do
+    enable true
+end
 
 template "#{node[:apache][:dir]}/sites-available/#{node['app']['name']}.conf" do
   source "apache2-cgi-vhost.erb"
