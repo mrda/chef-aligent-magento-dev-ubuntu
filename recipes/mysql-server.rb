@@ -35,13 +35,11 @@ if node['app']['database_engine'] == 'mysql' || node['app']['database_engine'] =
         action [:create, :start]
     end
 
-    if node['mysql']['server_version'] != "5.5"
-        mysql_config 'default' do
-            source 'mysql_config.erb'
-            notifies :restart, 'mysql_service[default]'
-            action :create
-        end
-    end 
+    mysql_config 'default' do
+        source 'mysql_config.erb'
+        notifies :restart, 'mysql_service[default]'
+        action :create
+    end
 else
     include_recipe 'mariadb::server'
 end
