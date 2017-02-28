@@ -1,3 +1,5 @@
+LogFormat "%{X-Frontend-IP}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %h" ip_combined
+
 <Directory <%= node['app']['document_root'] %>>
 	AllowOverride All
 </Directory>
@@ -36,7 +38,7 @@
 
 	LogLevel warn
 
-	CustomLog logs/access-<%= node['app']['name'] %>.log combined
+	CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
 
 </VirtualHost>
 
@@ -82,7 +84,7 @@ NameVirtualHost *:443
 
 	LogLevel warn
 
-	CustomLog logs/access-<%= node['app']['name'] %>.log combined
+	CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
 
 </VirtualHost>
 <% end %>

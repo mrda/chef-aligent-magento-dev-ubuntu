@@ -4,6 +4,8 @@
     <% host_names = run_codes.keys %>
 <% end %>
 
+LogFormat "%{X-Frontend-IP}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %h" ip_combined
+
 # CentOS 6/mod_fastcgi configuration not required on CentOS 7.
 <IfModule mod_fastcgi.c>
     AddType application/x-httpd-php .php
@@ -61,7 +63,7 @@
 
 	LogLevel warn
 
-	CustomLog logs/access-<%= node['app']['name'] %>.log combined
+	CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
 
 </VirtualHost>
 
@@ -112,7 +114,7 @@ NameVirtualHost *:443
 
 	LogLevel warn
 
-	CustomLog logs/access-<%= node['app']['name'] %>.log combined
+	CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
 
 </VirtualHost>
 <% end %>
