@@ -22,10 +22,167 @@ LogFormat "%{X-Frontend-IP}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Age
     <IfVersion >= 2.4>
         Require all granted
     </IfVersion>
+
+    <Files LICENSE_AFL.txt>
+        Require all denied
+    </Files>
+
+    <Files LICENSE_AFL.html>
+        Require all denied
+    </Files>
+
+    <Files LICENSE_EE.txt>
+        Require all denied
+    </Files>
+
+    <Files LICENSE_EE.html>
+        Require all denied
+    </Files>
+
+    <Files LICENSE.html>
+        Require all denied
+    </Files>
+
+    <Files LICENSE.txt>
+        Require all denied
+    </Files>
+
+    <Files phpunit.xml>
+        Require all denied
+    </Files>
+
+    <Files phpunit.xml.dist>
+        Require all denied
+    </Files>
+
+    <Files README_VARNISH_CACHE.txt>
+        Require all denied
+    </Files>
+
+    <Files readme.md>
+        Require all denied
+    </Files>
+
+    <Files README.txt>
+        Require all denied
+    </Files>
+
+    <Files README.modman>
+        Require all denied
+    </Files>
+
+    <Files phpunit.xml>
+        Require all denied
+    </Files>
+
+    <Files phpunit.xml.dist>
+        Require all denied
+    </Files>
+
+    <Files README_VARNISH_CACHE.txt>
+        Require all denied
+    </Files>
+
+    <Files readme.md>
+        Require all denied
+    </Files>
+
+    <Files README.txt>
+        Require all denied
+    </Files>
+
+    <Files README.modman>
+        Require all denied
+    </Files>
+
+    <Files Vagrantfile>
+        Require all denied
+    </Files>
+
+    <Files composer.json>
+        Require all denied
+    </Files>
+
+    <Files composer.lock>
+        Require all denied
+    </Files>
+
+    <Files config.rb>
+        Require all denied
+    </Files>
+
+    <Files cron.php>
+        Require all denied
+    </Files>
+
+    <Files cron.sh>
+        Require all denied
+    </Files>
+
+    <Files gulpfile.js>
+        Require all denied
+    </Files>
+
+    <Files package.json>
+        Require all denied
+    </Files>
+
 </Directory>
 
+<Directory <%= node['app']['document_root'] %>/app/etc>
+    AllowOverride none
+    Require all denied
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/downloader>
+    AllowOverride none
+    Require all denied
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/js>
+    AllowOverride FileInfo Nonfatal=All
+    <FilesMatch "(?i)\.(php|phtml)$">
+        Require all denied
+    </FilesMatch>
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/media>
+    AllowOverride FileInfo Nonfatal=All
+    <FilesMatch "(?i)\.(php|phtml)$">
+        Require all denied
+    </FilesMatch>
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/skin>
+    AllowOverride FileInfo Nonfatal=All
+    <FilesMatch "(?i)\.(php|phtml)$">
+        Require all denied
+    </FilesMatch>
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/source>
+    AllowOverride none
+    Require all denied
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/sql>
+    AllowOverride none
+    Require all denied
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/var>
+    AllowOverride none
+    Require all denied
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/vendor>
+    AllowOverride none
+    Require all denied
+</Directory>
+
+
 <VirtualHost *:80>
-	ServerAdmin sysadmin@aligent.com.au
+    ServerAdmin sysadmin@aligent.com.au
     <% if host_names != nil && !host_names.empty? %>
         <% host_names.each do |domain| %>
             <% if domain == host_names.first %>
@@ -38,7 +195,7 @@ LogFormat "%{X-Frontend-IP}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Age
         ServerName <%= node['app']['url']['host'] %>
     <% end %>
 
-   	DocumentRoot <%= node['app']['document_root'] %>
+    DocumentRoot <%= node['app']['document_root'] %>
 
     <% if run_codes != nil && !run_codes.empty? %>
         <% run_codes.each do |domain, code| %>
@@ -59,18 +216,22 @@ LogFormat "%{X-Frontend-IP}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Age
         Alias /php.fcgi /var/www/cgi-bin/php.fgi
     </IfModule>
 
-	ErrorLog logs/error-<%= node['app']['name'] %>.log
+    ErrorLog logs/error-<%= node['app']['name'] %>.log
 
-	LogLevel warn
+    LogLevel warn
 
-	CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
+    CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
+
+    <Location ~ "^/(index.php/?)?rss/">
+        Require all denied
+    </Location>
 
 </VirtualHost>
 
 <% if node['app']['ssl']['enabled'] %>
 NameVirtualHost *:443
 <VirtualHost *:443>
-	ServerAdmin sysadmin@aligent.com.au
+    ServerAdmin sysadmin@aligent.com.au
 
     <% if host_names != nil && !host_names.empty? %>
         <% host_names.each do |index, domain| %>
@@ -92,7 +253,7 @@ NameVirtualHost *:443
          downgrade-1.0 force-response-1.0
 
 
-   	DocumentRoot <%= node['app']['document_root'] %>
+    DocumentRoot <%= node['app']['document_root'] %>
 
     <% if run_codes != nil && !run_codes.empty? %>
         <% run_codes.each do |domain, code| %>
@@ -110,11 +271,15 @@ NameVirtualHost *:443
         Alias /php.fcgi /var/www/cgi-bin/php.fgi
     </IfModule>
 
-	ErrorLog logs/error-<%= node['app']['name'] %>.log
+    ErrorLog logs/error-<%= node['app']['name'] %>.log
 
-	LogLevel warn
+    LogLevel warn
 
-	CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
+    CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
+
+    <Location ~ "^/(index.php/?)?rss/">
+        Require all denied
+    </Location>
 
 </VirtualHost>
 <% end %>
