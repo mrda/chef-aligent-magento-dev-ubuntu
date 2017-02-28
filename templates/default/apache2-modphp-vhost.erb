@@ -1,6 +1,172 @@
+LogFormat "%{X-Frontend-IP}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %h" ip_combined
+
 <Directory <%= node['app']['document_root'] %>>
-	AllowOverride All
+    AllowOverride All
+
+    <IfVersion < 2.4>
+        Allow from all
+    </IfVersion>
+    <IfVersion >= 2.4>
+        Require all granted
+    </IfVersion>
+
+    <Files LICENSE_AFL.txt>
+        Require all denied
+    </Files>
+
+    <Files LICENSE_AFL.html>
+        Require all denied
+    </Files>
+
+    <Files LICENSE_EE.txt>
+        Require all denied
+    </Files>
+
+    <Files LICENSE_EE.html>
+        Require all denied
+    </Files>
+
+    <Files LICENSE.html>
+        Require all denied
+    </Files>
+
+    <Files LICENSE.txt>
+        Require all denied
+    </Files>
+
+    <Files phpunit.xml>
+        Require all denied
+    </Files>
+
+    <Files phpunit.xml.dist>
+        Require all denied
+    </Files>
+
+    <Files README_VARNISH_CACHE.txt>
+        Require all denied
+    </Files>
+
+    <Files readme.md>
+        Require all denied
+    </Files>
+
+    <Files README.txt>
+        Require all denied
+    </Files>
+
+    <Files README.modman>
+        Require all denied
+    </Files>
+
+    <Files phpunit.xml>
+        Require all denied
+    </Files>
+
+    <Files phpunit.xml.dist>
+        Require all denied
+    </Files>
+
+    <Files README_VARNISH_CACHE.txt>
+        Require all denied
+    </Files>
+
+    <Files readme.md>
+        Require all denied
+    </Files>
+
+    <Files README.txt>
+        Require all denied
+    </Files>
+
+    <Files README.modman>
+        Require all denied
+    </Files>
+
+    <Files Vagrantfile>
+        Require all denied
+    </Files>
+
+    <Files composer.json>
+        Require all denied
+    </Files>
+
+    <Files composer.lock>
+        Require all denied
+    </Files>
+
+    <Files config.rb>
+        Require all denied
+    </Files>
+
+    <Files cron.php>
+        Require all denied
+    </Files>
+
+    <Files cron.sh>
+        Require all denied
+    </Files>
+
+    <Files gulpfile.js>
+        Require all denied
+    </Files>
+
+    <Files package.json>
+        Require all denied
+    </Files>
+
 </Directory>
+
+<Directory <%= node['app']['document_root'] %>/app/etc>
+    AllowOverride none
+    Require all denied
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/downloader>
+    AllowOverride none
+    Require all denied
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/js>
+    AllowOverride FileInfo Nonfatal=All
+    <FilesMatch "(?i)\.(php|phtml)$">
+        Require all denied
+    </FilesMatch>
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/media>
+    AllowOverride FileInfo Nonfatal=All
+    <FilesMatch "(?i)\.(php|phtml)$">
+        Require all denied
+    </FilesMatch>
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/skin>
+    AllowOverride FileInfo Nonfatal=All
+    <FilesMatch "(?i)\.(php|phtml)$">
+        Require all denied
+    </FilesMatch>
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/source>
+    AllowOverride none
+    Require all denied
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/sql>
+    AllowOverride none
+    Require all denied
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/var>
+    AllowOverride none
+    Require all denied
+</Directory>
+
+<Directory <%= node['app']['document_root'] %>/vendor>
+    AllowOverride none
+    Require all denied
+</Directory>
+
 
 <VirtualHost *:80>
 
@@ -36,7 +202,11 @@
 
 	LogLevel warn
 
-	CustomLog logs/access-<%= node['app']['name'] %>.log combined
+	CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
+
+    <Location ~ "^/(index.php/?)?rss/">
+        Require all denied
+    </Location>
 
 </VirtualHost>
 
@@ -82,7 +252,11 @@ NameVirtualHost *:443
 
 	LogLevel warn
 
-	CustomLog logs/access-<%= node['app']['name'] %>.log combined
+	CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
+
+    <Location ~ "^/(index.php/?)?rss/">
+        Require all denied
+    </Location>
 
 </VirtualHost>
 <% end %>
