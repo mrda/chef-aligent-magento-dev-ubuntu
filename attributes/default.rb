@@ -62,3 +62,40 @@ default["redis2"]["instances"]["session"]["port"] = default['app']['session_back
 default["redis2"]["instances"]["session"]["appendonly"] = "yes"
 default["redis2"]["instances"]["session"]["appendfsync"] = "everysec"
 default["redis2"]["instances"]["session"]["bgsave"] = false
+
+default['cwlogs']['region'] = 'ap-southeast-2'
+default['cwlogs']['state_file_dir'] = '/var/awslogs/state'
+default['cwlogs']['state_file_name'] = 'agent-state'
+
+default['cwlogs']['logfiles']['system-messages'] = {
+  :log_stream_name  => 'system-messages-{ip_address}',
+  :log_group_name   => '%AWS_ENV_NAME%-%AWS_ROLE_NAME%',
+  :file             => '/var/log/messages',
+  :datetime_format  => '%b %d %H:%M:%S',
+  :initial_position => 'end_of_file'
+}
+
+default['cwlogs']['logfiles']['system-secure'] = {
+  :log_stream_name  => 'system-secure-{ip_address}',
+  :log_group_name   => '%AWS_ENV_NAME%-%AWS_ROLE_NAME%',
+  :file             => '/var/log/secure',
+  :datetime_format  => '%b %d %H:%M:%S',
+  :initial_position => 'end_of_file'
+}
+
+default['cwlogs']['logfiles']['system-cron'] = {
+  :log_stream_name  => 'system-cron-{ip_address}',
+  :log_group_name   => '%AWS_ENV_NAME%-%AWS_ROLE_NAME%',
+  :file             => '/var/log/cron',
+  :datetime_format  => '%b %d %H:%M:%S',
+  :initial_position => 'end_of_file'
+}
+
+default['cwlogs']['logfiles']['system-cloud-init.log'] = {
+  :log_stream_name  => 'system-cloud-init.log-{ip_address}',
+  :log_group_name   => '%AWS_ENV_NAME%-%AWS_ROLE_NAME%',
+  :file             => '/var/log/cloud-init.log',
+  :datetime_format  => '%b %d %H:%M:%S',
+  :initial_position => 'end_of_file'
+}
+
