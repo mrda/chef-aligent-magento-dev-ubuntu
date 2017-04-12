@@ -72,7 +72,7 @@ default['cwlogs']['logfiles']['system-messages'] = {
   :log_group_name   => '%AWS_ENV_NAME%-%AWS_ROLE_NAME%',
   :file             => '/var/log/messages',
   :datetime_format  => '%b %d %H:%M:%S',
-  :initial_position => 'end_of_file'
+  :initial_position => 'start_of_file'
 }
 
 default['cwlogs']['logfiles']['system-secure'] = {
@@ -80,7 +80,7 @@ default['cwlogs']['logfiles']['system-secure'] = {
   :log_group_name   => '%AWS_ENV_NAME%-%AWS_ROLE_NAME%',
   :file             => '/var/log/secure',
   :datetime_format  => '%b %d %H:%M:%S',
-  :initial_position => 'end_of_file'
+  :initial_position => 'start_of_file'
 }
 
 default['cwlogs']['logfiles']['system-cron'] = {
@@ -88,7 +88,7 @@ default['cwlogs']['logfiles']['system-cron'] = {
   :log_group_name   => '%AWS_ENV_NAME%-%AWS_ROLE_NAME%',
   :file             => '/var/log/cron',
   :datetime_format  => '%b %d %H:%M:%S',
-  :initial_position => 'end_of_file'
+  :initial_position => 'start_of_file'
 }
 
 default['cwlogs']['logfiles']['system-cloud-init.log'] = {
@@ -96,6 +96,6 @@ default['cwlogs']['logfiles']['system-cloud-init.log'] = {
   :log_group_name   => '%AWS_ENV_NAME%-%AWS_ROLE_NAME%',
   :file             => '/var/log/cloud-init.log',
   :datetime_format  => '%b %d %H:%M:%S',
-  :initial_position => 'end_of_file'
+  :initial_position => 'start_of_file'
 }
 
