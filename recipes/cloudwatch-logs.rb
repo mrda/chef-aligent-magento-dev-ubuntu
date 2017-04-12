@@ -1,6 +1,6 @@
 # Based on the Cloudar code at https://github.com/WeAreCloudar/chef-cloudwatch-logs/blob/master/recipes/installer.rb
 
-template '/tmp/cwlogs.cfg.template' do
+template '/root/cwlogs.cfg.template' do
   source 'awslogs.conf.erb'
   owner 'root'
   group 'root'
@@ -12,7 +12,7 @@ end
 
 
 
-cookbook_file '/tmp/install-cloudwatch-logs-agent.sh' do
+cookbook_file '/root/install-cloudwatch-logs-agent.sh' do
   source 'install-cloudwatch-logs-agent.sh'
   owner 'root'
   group 'root'
