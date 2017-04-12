@@ -8,6 +8,9 @@ source /etc/profile.d/cf-stack-environment.sh
 if [ -f $template ]; then
     sed -e "s/%BACKEND_ELB_HOST_NAME%/$BACKEND_ELB_HOST_NAME/g" \
         -e "s/%AWS_REGION%/$AWS_REGION/" \
+        -e "s/%AWS_STACK_NAME%/$AWS_STACK_NAME/" \
+        -e "s/%AWS_ENV_NAME%/$AWS_ENV_NAME/" \
+        -e "s/%AWS_ROLE_NAME%/$AWS_ROLE_NAME/" \
         -e "s/%RDS_MYSQL_HOSTNAME%/$RDS_MYSQL_HOSTNAME/" \
         -e "s/%RDS_MYSQL_DATABASE%/$RDS_MYSQL_DATABASE/" \
         -e "s/%RDS_MYSQL_USERNAME%/$RDS_MYSQL_USERNAME/" \
