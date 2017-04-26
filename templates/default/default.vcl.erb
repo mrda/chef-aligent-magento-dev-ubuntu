@@ -6,7 +6,7 @@ include "elb.vcl";
 <% else %>
 # default backend definition.  Set this to point to your content server.
 backend vagrant_env {
-    .host = " %>";
+    .host = "<%= node['varnish']['backend_host'] %>";
     .port = "<%= node['varnish']['backend_port'] %>";
     .connect_timeout = 15s;
     .first_byte_timeout = 3600s;
