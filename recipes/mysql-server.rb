@@ -36,16 +36,15 @@ if node['app']['database_engine'] == 'mysql' || node['app']['database_engine'] =
     end
 
     %w{/var/lib/mysql/ib_logfile0 /var/lib/mysql/ib_logfile1 }.each do |logfile|
-      file logfile do
+      file #{logfile} do
         action :delete
-        only_if { File.exist? logfile }
+        only_if { File.exist? #{logfile} }
       end
-      notifies :restart, 'mysql_service[default]'
     end
 
     mysql_config 'default' do
         source 'mysql_config.erb'
-        notifies :restart, 'mysql_service[default]'
+        notifies :restart, 'mysql_service[default]', :immediately
         action :create
     end
 else
