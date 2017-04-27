@@ -44,7 +44,7 @@ if node['app']['database_engine'] == 'mysql' || node['app']['database_engine'] =
 
     mysql_config 'default' do
         source 'mysql_config.erb'
-        notifies :restart, 'mysql_service[default]', :immediately
+        notifies :restart, 'mysql_service[default]'
         action :create
     end
 else
