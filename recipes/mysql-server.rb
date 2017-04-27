@@ -40,6 +40,7 @@ if node['app']['database_engine'] == 'mysql' || node['app']['database_engine'] =
         action :delete
         only_if { File.exist? logfile }
       end
+      notifies :restart, 'mysql_service[default]'
     end
 
     mysql_config 'default' do
