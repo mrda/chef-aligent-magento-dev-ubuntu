@@ -41,7 +41,7 @@ file "/etc/php.d/timezone.ini" do
 end
 
 
-template "/etc/php.d/zz-magento.ini" do
+template "/etc/php.d/zz-#{node['app']['name']}.ini" do
   source "zz-magento.ini.erb"
   mode '0644'
   owner 'root'
