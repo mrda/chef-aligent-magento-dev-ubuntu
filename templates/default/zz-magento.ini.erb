@@ -1,5 +1,5 @@
 max_execution_time=3600
-memory_limit=1024M
+memory_limit=<%= node['app']['php']['memory_limit'] %>
 session.auto_start=off
 suhosin.session.cryptua=off
 zend.ze1_compatibility_mode=Off

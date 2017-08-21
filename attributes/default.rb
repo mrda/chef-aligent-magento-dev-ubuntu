@@ -33,6 +33,8 @@ default['app']['opcache']['max_accelerated_files'] = 20000
 default['app']['opcache']['validate_timestamps'] = 0
 default['app']['opcache']['revalidate_freq'] = 60
 
+default['app']['php']['memory_limit'] = '1024M'
+
 default['app']['prompt']['stack'] = 'vagrant'
 default['app']['prompt']['role'] = 'default'
 
