@@ -42,7 +42,7 @@ end
 
 
 template "/etc/php.d/zz-#{node['app']['name']}.ini" do
-  source "zz-magento.ini.erb"
+  source "zz-appname.ini.erb"
   mode '0644'
   owner 'root'
   group 'root'
