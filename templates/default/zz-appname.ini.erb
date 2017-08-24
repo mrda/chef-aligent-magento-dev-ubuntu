@@ -8,9 +8,11 @@ max_input_vars=20000
 <% if node['app']['opcache']['installed'] %>
     <% if node['app']['opcache']['enabled'] %>
 opcache.enable=1
-opcache.max_accelerated_files=<%= node['app']['opcache']['max_accelerated_files'] %>
-opcache.validate_timestamps=<%= node['app']['opcache']['validate_timestamps'] %>
-opcache.opcache.revalidate_freq=<%= node['app']['opcache']['revalidate_freq'] %>
+        <% node['app']['opcache'].each do |key, value| %>
+            <% if key != 'installed' && key != 'enabled' %>
+opcache.<%= key %>=<%= value %>
+            <% end %>
+        <% end %>
     <% else %>
 opcache.enable=0
     <% end %>

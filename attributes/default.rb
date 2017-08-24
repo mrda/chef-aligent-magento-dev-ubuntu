@@ -32,6 +32,11 @@ default['app']['opcache']['enabled'] = true
 default['app']['opcache']['max_accelerated_files'] = 20000
 default['app']['opcache']['validate_timestamps'] = 0
 default['app']['opcache']['revalidate_freq'] = 60
+default['app']['opcache']['memory_consumption'] = 64
+default['app']['opcache']['interned_strings_buffer'] = 4
+default['app']['opcache']['fast_shutdown'] = 0
+default['app']['opcache']['load_comments'] = 1
+default['app']['opcache']['save_comments'] = 1
 
 default['app']['php']['memory_limit'] = '1024M'
 
