@@ -32,7 +32,7 @@ if node['app']['database_engine'] == 'mysql' || node['app']['database_engine'] =
     end
 
     mysql2_chef_gem 'default' do
-      client_version node['mysql']['server_version']
+      package_version node['mysql']['server_version']
       action :install
     end
 
