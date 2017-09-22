@@ -41,3 +41,6 @@ if node['hostname'] == 'vagrant'
         non_unique true
     end
 end
+
+include_recipe 'apt'
+
