@@ -1,5 +1,5 @@
 
-# Cookbook Name:: aligent-magento-dev
+# Cookbook Name:: aligent-magento-dev-ubuntu
 # Recipe:: magento-logrotate
 #
 # Copyright 2016, (c) 2015 Aligent Consulting

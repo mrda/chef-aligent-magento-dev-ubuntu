@@ -18,7 +18,7 @@ Attributes
 TODO: List your cookbook attributes here.
 
 e.g.
-#### aligent-magento-dev::default
+#### aligent-magento-dev-ubuntu::default
 <table>
   <tr>
     <th>Key</th>
@@ -27,7 +27,7 @@ e.g.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['aligent-magento-dev']['bacon']</tt></td>
+    <td><tt>['aligent-magento-dev-ubuntu']['bacon']</tt></td>
     <td>Boolean</td>
     <td>whether to include bacon</td>
     <td><tt>true</tt></td>
@@ -36,17 +36,17 @@ e.g.
 
 Usage
 -----
-#### aligent-magento-dev::default
+#### aligent-magento-dev-ubuntu::default
 TODO: Write usage instructions for each cookbook.
 
 e.g.
-Just include `aligent-magento-dev` in your node's `run_list`:
+Just include `aligent-magento-dev-ubuntu` in your node's `run_list`:
 
 ```json
 {
   "name":"my_node",
   "run_list": [
-    "recipe[aligent-magento-dev]"
+    "recipe[aligent-magento-dev-ubuntu]"
   ]
 }
 ```

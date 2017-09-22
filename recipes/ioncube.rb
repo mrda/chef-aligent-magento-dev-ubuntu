@@ -1,5 +1,5 @@
 #
-## Cookbook Name:: aligent-magento-dev
+## Cookbook Name:: aligent-magento-dev-ubuntu
 ## Recipe:: ioncube
 ##
 ## Copyright 2016, Aligent Consulting

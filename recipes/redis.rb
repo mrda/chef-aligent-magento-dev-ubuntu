@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: aligent-magento-dev
+# Cookbook Name:: aligent-magento-dev-ubuntu
 # Recipe:: redis
 #
 # Copyright 2015, (c) 2015 Aligent Consulting

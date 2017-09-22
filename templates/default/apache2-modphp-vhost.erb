@@ -170,9 +170,9 @@ LogFormat "%{X-Frontend-IP}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Age
 
 <VirtualHost *:80>
 
-	ServerAdmin sysadmin@aligent.com.au
+    ServerAdmin sysadmin@aligent.com.au
 
-	<% run_codes = node['app']['run_codes'] %>
+    <% run_codes = node['app']['run_codes'] %>
     <% if run_codes != nil && !run_codes.empty? %>
         <% run_codes.each do |domain, code| %>
             <% if code == run_codes.first %>
@@ -198,11 +198,11 @@ LogFormat "%{X-Frontend-IP}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Age
         SetEnv <%= "#{param} '#{value}'" %>
     <% end %>
 
-	ErrorLog logs/error-<%= node['app']['name'] %>.log
+    ErrorLog logs/error-<%= node['app']['name'] %>.log
 
-	LogLevel warn
+    LogLevel warn
 
-	CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
+    CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
 
     <Location ~ "^/(index.php/?)?rss/">
         Require all denied
@@ -213,7 +213,7 @@ LogFormat "%{X-Frontend-IP}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Age
 <% if node['app']['ssl']['enabled'] %>
 NameVirtualHost *:443
 <VirtualHost *:443>
-	ServerAdmin sysadmin@aligent.com.au
+    ServerAdmin sysadmin@aligent.com.au
 
     <% if run_codes != nil && !run_codes.empty? %>
         <% run_codes.each do |domain, code| %>
@@ -235,7 +235,7 @@ NameVirtualHost *:443
          downgrade-1.0 force-response-1.0
 
 
-   	DocumentRoot <%= node['app']['document_root'] %>
+    DocumentRoot <%= node['app']['document_root'] %>
 
     <% if run_codes != nil && !run_codes.empty? %>
         <% run_codes.each do |domain, code| %>
@@ -248,11 +248,11 @@ NameVirtualHost *:443
         SetEnv <%= "#{param} '#{value}'" %>
     <% end %>
 
-	ErrorLog logs/error-<%= node['app']['name'] %>.log
+    ErrorLog logs/error-<%= node['app']['name'] %>.log
 
-	LogLevel warn
+    LogLevel warn
 
-	CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
+    CustomLog logs/access-<%= node['app']['name'] %>.log ip_combined
 
     <Location ~ "^/(index.php/?)?rss/">
         Require all denied

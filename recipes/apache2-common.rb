@@ -1,5 +1,5 @@
 #
-## Cookbook Name:: aligent-magento-dev
+## Cookbook Name:: aligent-magento-dev-ubuntu
 ## Recipe:: apache2-common
 ##
 ## Copyright 2015, Aligent Consulting
@@ -44,7 +44,7 @@ end
 
 if node['app']['ssl']['enabled']
     include_recipe 'apache2::mod_ssl'
-    include_recipe 'aligent-magento-dev::ssl-cert'
+    include_recipe 'aligent-magento-dev-ubuntu::ssl-cert'
 end
 
 service "apache2" do

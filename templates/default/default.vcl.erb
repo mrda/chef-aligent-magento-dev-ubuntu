@@ -203,7 +203,7 @@ sub vcl_fetch {
         if (beresp.http.Content-Type ~ "text/html" || beresp.http.Content-Type ~ "text/xml" || beresp.http.Content-Type ~ "application/json") {
             if ((beresp.http.Set-Cookie ~ "NO_CACHE=") || (beresp.ttl < 1s)) {
                 set beresp.ttl = 0s;
-		        set beresp.http.X-Cacheable = "NO:No cache cookie or ttl less than a second";
+                set beresp.http.X-Cacheable = "NO:No cache cookie or ttl less than a second";
                 return (hit_for_pass);
             }
 

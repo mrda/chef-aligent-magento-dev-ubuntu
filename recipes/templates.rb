@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: aligent-magento-dev
+# Cookbook Name:: aligent-magento-dev-ubuntu
 # Recipe:: templates
 #
 # Copyright 2016, (c) 2016 Aligent Consulting

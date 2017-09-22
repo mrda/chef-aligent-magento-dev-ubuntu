@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: aligent-magento-dev
+# Cookbook Name:: aligent-magento-dev-ubuntu
 # Recipe:: default
 #
 # Copyright 2015, (c) 2015 Aligent Consulting
@@ -24,19 +24,19 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 if node['hostname'] == 'vagrant'
-    group 'centos' do
+    group 'ubuntu' do
         action     :create
         gid        '2000'
         append     true
         non_unique true
     end
 
-    user 'centos' do
+    user 'ubuntu' do
         action     :create
-        comment    'Duplicate centos user to replicate the default user on AWS'
+        comment    'Duplicate ubuntu user to replicate the default user on AWS'
         uid        '2000'
-        gid        'centos'
-        home       '/home/centos'
+        gid        'ubuntu'
+        home       '/home/ubuntu'
         shell      '/bin/bash'
         non_unique true
     end

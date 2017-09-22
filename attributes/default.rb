@@ -6,7 +6,7 @@ default['app']['name'] = "magento"
 default['app']['document_root'] = "/vagrant/public"
 default['app']['run_codes'] = {}
 default['app']['server_params'] = {}
-default['app']['local_xml_cookbook'] = 'aligent-magento-dev'
+default['app']['local_xml_cookbook'] = 'aligent-magento-dev-ubuntu'
 
 default['app']['cache_backend'] = 'redis';
 default['app']['cache_backend_redis']['prefix'] = 'dev_'
@@ -23,7 +23,7 @@ default['app']['primary_user'] = "vagrant"
 default['app']['cron_user'] = "vagrant"
 default['app']['cron_mailto'] = "sysadmin@aligent.com.au"
 
-default['app']['vhost_cookbook'] = 'aligent-magento-dev'
+default['app']['vhost_cookbook'] = 'aligent-magento-dev-ubuntu'
 
 default['app']['database_engine'] = 'mysql'
 
@@ -51,10 +51,10 @@ default['app']['dev']['phpunit']['disable_modules'] = []
 default['app']['templates']['before'] = "varnish.service"
 default['app']['templates']['after'] = "cloud-final.service"
 default['app']['templates']['file_list'] = '/etc/default/varnish-elb /etc/my.conf'
-default['app']['templates']['process_template_cookbook'] = 'aligent-magento-dev'
+default['app']['templates']['process_template_cookbook'] = 'aligent-magento-dev-ubuntu'
 
 default['varnish']['version'] = '3.0'
-default['varnish']['vcl_cookbook'] = 'aligent-magento-dev'
+default['varnish']['vcl_cookbook'] = 'aligent-magento-dev-ubuntu'
 default['varnish']['backend_host'] = 'localhost'
 default['varnish']['backend_port'] = 80
 

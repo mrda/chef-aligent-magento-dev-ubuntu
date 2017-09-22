@@ -1,5 +1,5 @@
 #
-## Cookbook Name:: aligent-magento-dev
+## Cookbook Name:: aligent-magento-dev-ubuntu
 ## Recipe:: apache2-cgi-vhost
 ##
 ## Copyright 2015, Aligent Consulting
@@ -68,4 +68,4 @@ apache_site node['app']['name'] do
   enable true
 end
 
-include_recipe 'aligent-magento-dev::apache2-common'
+include_recipe 'aligent-magento-dev-ubuntu::apache2-common'

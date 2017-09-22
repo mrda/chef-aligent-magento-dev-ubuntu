@@ -1,4 +1,4 @@
-name             'aligent-magento-dev'
+name             'aligent-magento-dev-ubuntu'
 maintainer       'Aligent Consulting'
 maintainer_email 'sysadmin@aligent.com.au'
 license          'MIT'
