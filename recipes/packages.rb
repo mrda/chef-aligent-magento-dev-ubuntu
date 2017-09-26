@@ -25,7 +25,7 @@
 ##
 #
 
-%w{vim git-all geoip-bin geoip-database php-geoip}.each do |pkg|
+%w{vim git-all geoip-bin geoip-database php-geoip ack-grep}.each do |pkg|
   package pkg do
     action :install
   end
