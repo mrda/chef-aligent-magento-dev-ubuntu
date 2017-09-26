@@ -24,14 +24,14 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 directory "#{node['app']['document_root']}/app/etc/" do
-  owner "apache"
-  group "apache"
+  owner "www-data"
+  group "www-data"
   recursive true
 end
 
 template "#{node['app']['document_root']}/app/etc/env.php" do
   source "env.php.erb"
   mode 0644
-  owner "apache"
-  group "apache"
+  owner "www-data"
+  group "www-data"
 end

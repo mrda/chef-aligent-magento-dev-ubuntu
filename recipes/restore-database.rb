@@ -59,7 +59,7 @@ if !File.exists?(flag_file)
         # Ensure media folder exists
         if [ ! -d ./media ]; then
             mkdir ./media
-            chown #{node['app']['primary_user']}:apache ./media
+            chown #{node['app']['primary_user']}:www-data ./media
             chmod -R 777 ./media
         fi
 
