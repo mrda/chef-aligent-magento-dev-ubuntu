@@ -25,8 +25,7 @@
 ##
 #
 
-
-file "/etc/php.d/timezone.ini" do
+file "#{node['php']['ext_conf_dir']}/timezone.ini" do
   owner "root"
   group "root"
   mode "0644"
@@ -40,8 +39,7 @@ file "/etc/php.d/timezone.ini" do
 
 end
 
-
-template "/etc/php.d/zz-#{node['app']['name']}.ini" do
+template "#{node['php']['ext_conf_dir']}/zz-#{node['app']['name']}.ini" do
   source "zz-appname.ini.erb"
   mode '0644'
   owner 'root'
