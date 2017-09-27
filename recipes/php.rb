@@ -32,7 +32,7 @@ file "#{node['php']['ext_conf_dir']}/timezone.ini" do
   action :create
   content "date.timezone=\"#{node['tz']}\"\n"
   if node.recipe?('php-fpm')
-    notifies :restart, 'service[php7.0-fpm]'
+    notifies :restart, 'service[php-fpm]'
   end
 
 end
@@ -43,6 +43,6 @@ template "#{node['php']['ext_conf_dir']}/zz-#{node['app']['name']}.ini" do
   owner 'root'
   group 'root'
   if node.recipe?('php-fpm')
-    notifies :restart, 'service[php7.0-fpm]'
+    notifies :restart, 'service[php-fpm]'
   end
 end
