@@ -25,9 +25,10 @@
 ##
 #
 
-
-package 'redis' do
-  action :install
+%w{redis-server php-redis redis-tools}.each do |pkg|
+  package pkg do
+      action :install
+  end
 end
 
 cookbook_file '/usr/local/bin/cache-flush.sh' do
