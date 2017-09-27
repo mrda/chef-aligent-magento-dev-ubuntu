@@ -40,7 +40,7 @@ remote_file "#{Chef::Config[:file_cache_path]}/codedeploy-agent-install" do
 end
 
 execute "install_codedeploy_agent" do
-    command "#{Chef::Config[:file_cache_path]}/codedeploy-agent-install rpm"
+    command "#{Chef::Config[:file_cache_path]}/codedeploy-agent-install deb"
     cwd "/opt"
     creates "/etc/init.d/codedeploy-agent"
 end
