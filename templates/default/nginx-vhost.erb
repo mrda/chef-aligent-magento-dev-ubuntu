@@ -14,8 +14,8 @@ server {
 <% if node['app']['ssl']['enabled'] %>
   listen 443;
   ssl on;
-  ssl_certificate /etc/pki/tls/certs/<%= node['app']['name'] %>.crt;
-  ssl_certificate_key /etc/pki/tls/private/<%= node['app']['name'] %>.key;
+  ssl_certificate /etc/ssl/<%= node['app']['name'] %>.crt;
+  ssl_certificate_key /etc/ssl/<%= node['app']['name'] %>.key;
   access_log  <%= node[:nginx][:log_dir] %>/<%= node['app']['name'] %>-ssl.access.log;
 <% else %>
   listen 80;

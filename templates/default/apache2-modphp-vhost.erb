@@ -228,8 +228,8 @@ NameVirtualHost *:443
     <% end %>
 
     SSLEngine on
-    SSLCertificateFile /etc/pki/tls/certs/<%= node['app']['name'] %>.crt
-    SSLCertificateKeyFile /etc/pki/tls/private/<%= node['app']['name'] %>.key
+    SSLCertificateFile /etc/ssl/<%= node['app']['name'] %>.crt
+    SSLCertificateKeyFile /etc/ssl/<%= node['app']['name'] %>.key
     SetEnvIf User-Agent ".*MSIE.*" \
          nokeepalive ssl-unclean-shutdown \
          downgrade-1.0 force-response-1.0
