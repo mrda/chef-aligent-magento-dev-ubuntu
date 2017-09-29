@@ -42,10 +42,6 @@ if platform_family?("rhel") && node['platform_version'].to_f >= 7.0
       enable true
     end
 else
-    package 'apache2-mpm-worker' do
-      action :install
-    end
-
     package 'libapache2-mod-fastcgi' do
       action :install
     end
